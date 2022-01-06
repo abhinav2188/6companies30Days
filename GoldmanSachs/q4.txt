@@ -1,0 +1,56 @@
+/*
+question link : 
+https://practice.geeksforgeeks.org/problems/run-length-encoding/1/#
+submission link : 
+https://practice.geeksforgeeks.org/viewSol.php?subId=bfd60f92ac9c40702931cdbf96db2fac&pid=700243&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.util.*;
+ 
+class RLEncoding
+{
+   public static void main(String[] args) 
+   {
+ 
+      Scanner sc = new Scanner(System.in);
+    
+	  int T = sc.nextInt();
+	  sc.nextLine();
+	  while(T>0)
+	  {
+		  
+		String str = sc.nextLine();
+		
+		GfG g = new GfG();
+		System.out.println(g.encode(str));
+		
+      
+        T--;
+	  }
+   }
+}
+
+// } Driver Code Ends
+
+// TC ~ O(n)
+// SC ~ O(n) for output
+
+class GfG
+ {
+	String encode(String str)
+	{
+	    StringBuilder sb = new StringBuilder();
+        int i=0;
+        while(i<str.length()){
+          char ch = str.charAt(i);
+          int charCount = 0;
+          while(i<str.length() && str.charAt(i) == ch){
+              charCount++;
+              i++;
+          }
+          sb.append(ch+""+charCount);
+        }
+        return sb.toString();
+	}
+	
+ }
