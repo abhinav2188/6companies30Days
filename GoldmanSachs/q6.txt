@@ -1,0 +1,51 @@
+/*
+question link : 
+https://leetcode.com/problems/greatest-common-divisor-of-strings/
+submission link : 
+https://leetcode.com/submissions/detail/614221928/
+*/
+
+class Solution {
+    public String gcdOfStrings(String str1, String str2) {
+
+        int n1 = str1.length();
+        int n2 = str2.length();
+        
+        String r1 = getRepeatingSubstring(str1);
+        String r2 = getRepeatingSubstring(str2);
+        
+        if(r1.equals(r2)){
+            int k = findGCD(n1,n2);
+            return str1.substring(0,k);
+        }
+        
+        return "";
+    }
+
+    private int findGCD(int a,int b){
+        if(a<b) return findGCD(b,a);
+        if(b==0) return a;
+        return findGCD(b,a%b);
+    }
+    
+    private String getRepeatingSubstring(String str){
+        // System.out.println(str);
+        int prefix[] = new int[str.length()];
+        int j=0;
+        for(int i=1;i<str.length();i++){
+            char ch = str.charAt(i);
+            while(j>0 && str.charAt(j) != ch){
+                j = prefix[j-1];
+            }
+            if(ch == str.charAt(j)){
+                prefix[i] = j+1;
+                j++;
+            }
+        }
+        // System.out.println(Arrays.toString(prefix));
+        int rsl = str.length() - prefix[str.length()-1];
+        // System.out.println("repeating Substring: "+str.substring(0,rsl));
+        if( str.length() % rsl == 0) return str.substring(0,rsl);
+        else return str;
+    }
+}
