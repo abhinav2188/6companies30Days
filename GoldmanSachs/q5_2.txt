@@ -1,0 +1,58 @@
+/*
+question link : 
+https://practice.geeksforgeeks.org/problems/ugly-numbers2254/1/#
+submission link : 
+https://practice.geeksforgeeks.org/viewSol.php?subId=fc04f7f01fa65271850d895a4d833f8e&pid=703093&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br =
+            new BufferedReader(new InputStreamReader(System.in));
+        int t =
+            Integer.parseInt(br.readLine().trim()); // Inputting the testcases
+        while (t-- > 0) {
+            int n = Integer.parseInt(br.readLine().trim());
+
+            System.out.println(new Solution().getNthUglyNo(n));
+        }
+    }
+}// } Driver Code Ends
+
+
+// TC ~ O(n)
+// SC ~ O(n)
+
+class Solution {
+    /* Function to get the nth ugly number*/
+    long getNthUglyNo(int n) {
+        
+        int primes[] = {2,3,5};
+        
+        int pindex[] = new int[3];
+        
+        long uglyNumber[] = new long[n];
+        uglyNumber[0] = 1;
+        
+        for(int i=1;i<n;i++){
+            long next = Long.MAX_VALUE;
+            for(int j=0;j<3;j++){
+                next = Math.min(next,uglyNumber[pindex[j]] * primes[j]);
+            }
+            for(int j=0;j<3;j++){
+                if (next == (uglyNumber[pindex[j]] * primes[j]) )
+                pindex[j]++;
+            }
+            uglyNumber[i] = next;
+        }
+        
+        // System.out.println(Arrays.toString(uglyNumber));
+        
+        return uglyNumber[n-1];
+        
+    }
+}
