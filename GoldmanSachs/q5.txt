@@ -1,0 +1,46 @@
+/*
+question link : 
+https://practice.geeksforgeeks.org/problems/ugly-numbers2254/1/#
+submission link : 
+https://practice.geeksforgeeks.org/viewSol.php?subId=c87ea71e807cd86d4e59cab1a05dc2f8&pid=703093&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br =
+            new BufferedReader(new InputStreamReader(System.in));
+        int t =
+            Integer.parseInt(br.readLine().trim()); // Inputting the testcases
+        while (t-- > 0) {
+            int n = Integer.parseInt(br.readLine().trim());
+
+            System.out.println(new Solution().getNthUglyNo(n));
+        }
+    }
+}// } Driver Code Ends
+
+
+// TC ~ O(nlogn)
+// SC ~ O(n)
+
+class Solution {
+    /* Function to get the nth ugly number*/
+    long getNthUglyNo(int n) {
+        PriorityQueue<Long> minHeap = new PriorityQueue<>();
+        minHeap.add(1L);
+        long min = 1;
+        for(int i=1;i<=n;i++){
+            min = minHeap.poll();
+            while(minHeap.size() > 0 && min == minHeap.peek()) minHeap.poll();
+            minHeap.add(min*2);
+            minHeap.add(min*3);
+            minHeap.add(min*5);
+            // System.out.println("min="+min);
+            // System.out.println(minHeap);
+        }
+        return min;
+    }
+}
