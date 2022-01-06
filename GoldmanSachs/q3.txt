@@ -1,0 +1,78 @@
+/*
+question link : 
+https://practice.geeksforgeeks.org/problems/count-the-subarrays-having-product-less-than-k1708/1/#
+submission link:
+https://practice.geeksforgeeks.org/viewSol.php?subId=3cff97a32eea96db4bc819b9378d47fd&pid=703804&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+//Initial Template for Java
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+
+class GFG {
+	public static void main(String[] args) throws IOException
+	{
+	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(br.readLine().trim()); // Inputting the testcases
+        while(t-->0)
+        {
+            StringTokenizer stt = new StringTokenizer(br.readLine());
+            
+            long n = Long.parseLong(stt.nextToken());
+            long k = Long.parseLong(stt.nextToken());
+            
+            long a[] = new long[(int)(n)];
+            String inputLine[] = br.readLine().trim().split(" ");
+            for (int i = 0; i < n; i++) {
+                a[i] = Long.parseLong(inputLine[i]);
+            }
+            
+            Solution obj = new Solution();
+            System.out.println(obj.countSubArrayProductLessThanK(a, n, k));
+            
+        }
+	}
+}
+
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+/*
+TC ~ O(n)
+SC ~ O(1)
+*/
+
+class Solution {
+    
+    public int countSubArrayProductLessThanK(long a[], long n, long k)
+    {
+        int count = 0;
+        int j= 0;
+        long prod = 1;
+        for(int i=0;i<n;i++){
+            prod= prod * a[i];
+            while(j<=i && prod>=k){
+                prod = prod / a[j];
+                j++;
+            }
+            count+=(i-j+1);
+        }
+        return count;
+    }
+}
+
+/*
+k = 15
+
+    j
+3 4 2 5 1
+        i
+
+prod = 2*5*1 = 10
+count = 1+2+2+2+3 = 10
+*/
