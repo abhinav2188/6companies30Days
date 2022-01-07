@@ -1,0 +1,71 @@
+/*
+question link : 
+https://practice.geeksforgeeks.org/problems/total-decoding-messages1235/1/#
+submission link : 
+https://practice.geeksforgeeks.org/viewSol.php?subId=577d287575086b8bbbf114f95ccf9ef3&pid=705327&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+//Initial Template for Java
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class GFG
+{
+    public static void main(String[] args) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine().trim());
+        while(T-->0)
+        {
+            String str = br.readLine().trim();
+            Solution ob = new Solution();
+            int ans = ob.CountWays(str);
+            System.out.println(ans);
+        }
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+// TC ~ O(n)
+// SC ~ O(n)
+
+class Solution
+{
+    final int M = (int)Math.pow(10,9)+7;
+    long memo[];
+    public int CountWays(String str)
+    {
+        memo = new long[str.length()];
+        Arrays.fill(memo,-1);
+        return (int)(countWaysUtil(str,0));
+    }
+    public long countWaysUtil(String str, int idx){
+
+        if(idx == str.length()) return 1;
+
+        if(memo[idx]!=-1) return memo[idx];
+
+        if(str.charAt(idx) == '0') return 0;
+        if(idx == str.length()-1) return countWaysUtil(str,idx+1);
+
+        long count = 0;
+
+        if(str.charAt(idx) == '1' || str.charAt(idx) == '2' && str.charAt(idx+1) <= '6' ){
+            if(str.charAt(idx+1) != '0'){
+                count += countWaysUtil(str,idx+1);
+                if(count>=M) count%=M;
+            }
+            count += countWaysUtil(str,idx+2);
+            if(count>=M) count%=M;
+        }
+        else{
+            count = countWaysUtil(str,idx+1);
+            if(count>=M) count%=M;
+        }
+
+        return memo[idx]=count;
+    }
+}
