@@ -1,0 +1,28 @@
+/*
+question link : 
+https://leetcode.com/problems/minimum-size-subarray-sum/
+submission link : 
+https://leetcode.com/submissions/detail/615359669/
+*/
+
+// TC ~ O(n)
+// SC ~ O(1)
+
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int j = 0;
+        int sum = 0;
+        int minLen = nums.length+1;
+        for(int i=0;i<nums.length;i++){
+            sum+=nums[i];
+            while(j<=i && sum>=target){
+                minLen = Math.min(minLen,i-j+1);
+                sum-=nums[j];
+                j++;
+            }
+        }
+        if(minLen == nums.length+1)
+            return 0;
+        else return minLen;
+    }
+}
