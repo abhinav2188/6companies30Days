@@ -1,0 +1,84 @@
+/*
+question link : 
+https://practice.geeksforgeeks.org/problems/deee0e8cf9910e7219f663c18d6d640ea0b87f87/1/#
+submission link : 
+https://practice.geeksforgeeks.org/viewSol.php?subId=03f3122e7f5d3a5730fe1b672baa8def&pid=707042&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+class Main {
+    public static void main(String args[]) {
+        // taking input using class Scanner
+        Scanner sc = new Scanner(System.in);
+
+        // taking total count of testcases
+        int t = sc.nextInt();
+
+        while (t-- > 0) {
+            // taking total number of elements
+            int n = sc.nextInt();
+
+            // taking size of subArrays
+            int k = sc.nextInt();
+
+            // Declaring and Intializing an array of size n
+            int arr[] = new int[n];
+
+            // adding all the elements to the array
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            // Calling the method max_of_subarrays of class solve
+            // and storing the result in an ArrayList
+            ArrayList<Integer> res = new Solution().max_of_subarrays(arr, n, k);
+
+            // printing the elements of the ArrayList
+            for (int i = 0; i < res.size(); i++)
+                System.out.print(res.get(i) + " ");
+            System.out.println();
+        }
+    }
+}// } Driver Code Ends
+
+// TC ~ O(n)
+// SC ~ O(n+k) , O(n) for answer
+
+class Solution {
+    static ArrayList<Integer> max_of_subarrays(int arr[], int n, int k) {
+
+        if(k>n) return new ArrayList<>(0);
+        if(k==1){
+            ArrayList<Integer> ans = new ArrayList<>(n);
+            for(int num:arr) ans.add(num);
+            return ans;
+        }
+        
+        ArrayList<Integer> ans = new ArrayList<>(n-k+1);
+        
+        ArrayDeque<Integer> queue = new ArrayDeque<>();
+
+        for(int i=0;i<n;i++){
+            // System.out.println(queue);
+            while(!queue.isEmpty()) {
+                int topIdx = queue.peekFirst();
+                if(topIdx < i-k+1) queue.pollFirst();
+                else break;
+            }
+            while(!queue.isEmpty()){
+                int lastIdx = queue.peekLast();
+                if(arr[lastIdx] <= arr[i]) queue.pollLast();
+                else break;
+            }
+            queue.offerLast(i);
+            if(i>=k-1)
+            ans.add(arr[queue.peekFirst()]);
+        }
+        // System.out.println(queue);
+        
+        return ans;
+    }
+}
