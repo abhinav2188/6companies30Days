@@ -28,7 +28,7 @@ class MaxNums{
         if(minHeap.size() < size) minHeap.offer(num);
         else{
             int min = minHeap.peek();
-            if(num < min){
+            if(num > min){
                 minHeap.poll();
                 minHeap.offer(num);
             }
