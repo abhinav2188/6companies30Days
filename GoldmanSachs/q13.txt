@@ -1,0 +1,94 @@
+/*
+question link : 
+https://practice.geeksforgeeks.org/problems/decode-the-string2444/1#
+submission link : 
+https://practice.geeksforgeeks.org/viewSol.php?subId=0ac2860250be2fee99e6f37bf190060d&pid=705287&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(in.readLine());
+        while(t-- > 0){
+            String s = in.readLine();
+            
+            Solution ob = new Solution();
+            System.out.println(ob.decodedString(s));
+        }
+    }
+}// } Driver Code Ends
+
+
+//User function Template for Java
+
+// TC ~ O(n)
+
+class Solution{
+    static String decodedString(String s){
+        Stack<String> stk = new Stack<>();
+        int i = 0;
+        while(i<s.length()){
+            char ch = s.charAt(i);
+            if(Character.isDigit(ch)){
+                int count = 0;
+                while( Character.isDigit(ch)){
+                    int d = (int)(ch - '0');
+                    count = count*10+d;
+                    i++;
+                    if(i>=s.length()) break;
+                    ch = s.charAt(i);
+                }
+                stk.push(count+"");
+            }
+            if(ch == '['){
+                i++;
+            }
+            if(Character.isAlphabetic(ch)){
+                StringBuilder sb = new StringBuilder();
+                while(Character.isAlphabetic(ch)){
+                    sb.append(ch);
+                    i++;
+                    if(i>=s.length()) break;
+                    ch = s.charAt(i);                    
+                }
+                stk.push(sb.toString());
+            }
+            if(ch == ']'){
+                StringBuilder sb = new StringBuilder();
+                String str = "";
+                while(!stk.empty() && !Character.isDigit(stk.peek().charAt(0)) ){
+                    str = stk.pop() + str;
+                }
+                int count = Integer.parseInt(stk.pop());
+                while(count>0){
+                    sb.append(str);
+                    count--;
+                }
+                stk.push(sb.toString());
+                i++;
+            }
+            
+        }
+        
+        StringBuilder ans = new StringBuilder();
+        while(!stk.empty()){
+            ans.insert(0,stk.pop());
+        }
+        return ans.toString();
+    }
+}
+
+//   i
+// 3[a3[b]1[ab]]
+
+// open = 0
+// close = 3
+// 3
+// abbbab
+
