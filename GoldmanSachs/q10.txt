@@ -1,0 +1,52 @@
+Question10. Find max 10 numbers in a list having 10M entries.
+
+/*
+Approach : 
+since we have a large number of entries, we must not be storing them
+we need only to keep track of max 10 numbers
+Step 1 : store the numbers until their count is <= 10
+Step 2 : keep track of the min number of the 10 max numbers stored, 
+        compare the minimum number with the new number , 
+        if newNum < minNumber , replace minNumber with newNum, calculate new minimum from the max 10
+Step 3 : repeat step2 until the list ends 
+
+// Data-structure minHeap can be used for the purpose
+*/
+
+import java.util.*;
+
+class MaxNums{
+    // keeps track of all the max numbers
+    PriorityQueue<Integer> minHeap;
+    // size is the number of max items (10 in our case)
+    int size;
+    public MaxNums(int k){
+        minHeap = new PriorityQueue<>(k);
+        size = k;
+    }
+    void addNumber(int num){
+        if(minHeap.size() < size) minHeap.offer(num);
+        else{
+            int min = minHeap.peek();
+            if(num < min){
+                minHeap.poll();
+                minHeap.offer(num);
+            }
+        } 
+    }
+    List<Integer> getMaxNumbers(){
+        return new ArrayList<>(minHeap);
+    }
+}
+
+class HelloWorld {
+    public static void main(String[] args) {
+        MaxNums maxnums = new MaxNums(10);
+        for(int i=0;i<10000000;i++){
+            int num = (int)(Math.random() * Integer.MAX_VALUE);
+            maxnums.addNumber(num);
+        }
+        List<Integer> maxs = maxnums.getMaxNumbers();
+        System.out.println("maxNums : "+maxs);
+    }
+}
