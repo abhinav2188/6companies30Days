@@ -1,0 +1,41 @@
+/*
+question link : 
+https://leetcode.com/problems/longest-mountain-in-array/
+submission link : 
+https://leetcode.com/submissions/detail/615487778/
+*/
+
+// TC ~ O(n)
+// SC ~ O(1)
+
+class Solution {
+    public int longestMountain(int[] arr) {
+        int i=1;
+        int longest = 0;
+        while(i<arr.length){
+            int inc = 0;
+            int dec = 0;
+            while(i<arr.length && arr[i]>arr[i-1]){
+                inc++;
+                i++;
+            }
+            while(i<arr.length && arr[i]<arr[i-1]){
+                dec++;
+                i++;
+            }
+            if(inc>0 && dec>0){
+                longest = Math.max(longest,inc+dec+1);
+            }
+            while(i<arr.length && arr[i]==arr[i-1]) i++;
+            // System.out.println("i="+i+" inc="+inc+" dec="+dec);
+        }
+        // System.out.println("---------------------");
+        return longest;
+    }
+}
+
+/*
+[2,1,7,3,4,5,6,3,2,5,3,2,2,1,5,3]
+  D I D I I I D D I D D D E I D
+  3,6,5,2
+*/
