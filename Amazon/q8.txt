@@ -1,0 +1,84 @@
+/*
+question : 
+https://practice.geeksforgeeks.org/problems/count-ways-to-nth-stairorder-does-not-matter1322/1/#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=0248835a1ea6e8359078dd473e2c7df5&pid=701419&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.io.*;
+import java.util.*;
+
+
+class GFG {
+	public static void main (String[] args) {
+		
+		//taking input using Scanner class
+		Scanner sc = new Scanner(System.in);
+		
+		//taking total testcases
+		int t = sc.nextInt();
+		
+		while(t-- > 0){
+		    
+		    //taking total number of stairs
+		    int m = sc.nextInt();
+		    
+		    //creating an object of class DynamicProgramming
+		    Solution obj = new Solution();
+		    
+		    //calling method of class countWays()
+		    //of class DynamicProgramming
+		    System.out.println(obj.countWays(m));
+		    
+		}
+		
+	}
+}
+// } Driver Code Ends
+
+
+// TC ~ O(1)
+// SC ~ O(1)
+
+class Solution
+{
+    //Function to count number of ways to reach the nth stair 
+    //when order does not matter.
+    Long countWays(int m)
+    {
+        return (long)(m/2+1);
+    }    
+}
+
+/*
+stairs  ways
+1       1
+2       2
+3       2
+
+1 1 1
+1 2
+
+n = 4
+1 1 1 1
+1 1 2
+2 2
+
+n=5
+1 1 1 1 1
+1 1 1 2
+1 2 2
+
+n=6
+1 1 1 1 1 1
+6/2 = 3 => 2 2 2
+1 1 2 2
+1 1 1 1 2
+1 1 1 1 1 1
+
+*/
+
+
+
+
+
