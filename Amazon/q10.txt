@@ -1,0 +1,120 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/nuts-and-bolts-problem0431/1#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=ad4bd414d33649d0e3305e3e2e8776b1&pid=703024&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+//Initial Template for Java
+
+
+
+import java.util.*;
+import java.io.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int tc = Integer.parseInt(br.readLine().trim());
+        while (tc-- > 0) {
+            String[] inputLine;
+            int n = Integer.parseInt(br.readLine().trim());
+            char[] nuts = new char[n], bolts = new char[n];
+            inputLine = br.readLine().trim().split(" ");
+            for (int i = 0; i < n; i++) {
+                nuts[i] = (inputLine[i].charAt(0));
+            }
+            inputLine = br.readLine().trim().split(" ");
+            for (int i = 0; i < n; i++) {
+                bolts[i] = (inputLine[i].charAt(0));
+            }
+
+            new Solution().matchPairs(nuts, bolts, n);
+            for (int i = 0; i < n; i++) {
+                System.out.print(nuts[i] + " ");
+            }
+            System.out.println();
+            for (int i = 0; i < n; i++) {
+                System.out.print(bolts[i] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+
+// TC ~ O(nlogn)
+// SC ~ O(1)
+
+// no comparison b/w two bolts or two nuts
+
+class Solution {
+    Map<Character,Integer> sizes;
+    void matchPairs(char nuts[], char bolts[], int n) {
+        if(n==1) return;
+        sizes = new HashMap<>();
+        sizes.put('!',1);
+        sizes.put('#',2);
+        sizes.put('$',3);
+        sizes.put('%',4);
+        sizes.put('&',5);
+        sizes.put('*',6);
+        sizes.put('@',7);
+        sizes.put('^',8);
+        sizes.put('~',9);
+        matchPairsUtil(nuts,bolts,0,nuts.length-1);
+    }
+    void matchPairsUtil(char nuts[],char bolts[],int start, int end){
+        // System.out.println("util("+start+","+end+")");
+        if(start >= end) return ;
+        int pidx = getPivotIndex(bolts,start,end,nuts[start]);
+        // System.out.println("pidx="+pidx);
+        getPivotIndex(nuts,start,end,bolts[pidx]);
+        
+        matchPairsUtil(nuts,bolts,start,pidx-1);
+        matchPairsUtil(nuts,bolts,pidx+1,end);
+        
+
+    }
+    
+    int getPivotIndex(char arr[],int start, int end, char pivot){
+        // System.out.print("pivot="+pivot);
+        int j=start-1;
+        int k=end+1;
+        for(int i=start;i<=end && i<k ;i++){
+            if(sizes.get(arr[i]) < sizes.get(pivot)){
+                j++;
+                swap(arr,i,j);
+            }
+            else if(sizes.get(arr[i]) > sizes.get(pivot)){
+                k--;
+                swap(arr,i,k);
+                i--;
+            }
+            // System.out.println(Arrays.toString(arr));
+        } 
+        // System.out.println(" ,"+Arrays.toString(arr));
+        return j+1;
+    }
+    
+    void swap(char arr[],int i,int j){
+        char tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
+}
+
+/*
+0 1 2 3 4 5 6 7 8
+! # $ % & * @ ^ ~ 
+
+nuts[] = {&, %, @, #, *, $, !, ^, ~}
+bolts[] ={#, @, %, &, *, $, !, ^, ~}
+
+nut - bolt 
+7-8 = -1 (bolt is bigger)
+*/

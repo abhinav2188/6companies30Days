@@ -1,14 +1,18 @@
-sanaaaaabbb sanaaabbabb sanaab sanaab sanaababba sanaababbabaa sanaba sanabaaaaababa sanababaaaaaaaa sanabb sanabbbbaab sanbabb sanbabbbaabbbb sanbbbbbaa 
-sanaaaaabbb sanaaabbabb sanaab sanaab sanaababba sanaababbabaa sanaba sanabaaaaababa sanababaaaaaaaa sanabb sanabbbbaab sanbabb sanbabbbaabbbb sanbbbbbaa 
-sanaaaaabbb sanaaabbabb sanaab sanaab sanaababba sanaababbabaa sanaba sanabaaaaababa sanababaaaaaaaa sanabb sanabbbbaab sanbabb sanbabbbaabbbb sanbbbbbaa 
-sanbabb sanbabbbaabbbb sanbbbbbaa 
-sanbbbbbaa 
-sanbbbbbaa 
-
-
-sanaaaaabbb sanaaabbabb sanaab sanaababba sanaababbabaa sanaba sanabaaaaababa sanababaaaaaaaa sanabb sanabbbbaab sanbabb sanbabbbaabbbb sanbbbbbaa 
-sanaaaaabbb sanaaabbabb sanaab sanaababba sanaababbabaa sanaba sanabaaaaababa sanababaaaaaaaa sanabb sanabbbbaab sanbabb sanbabbbaabbbb sanbbbbbaa 
-sanaaaaabbb sanaaabbabb sanaab sanaababba sanaababbabaa sanaba sanabaaaaababa sanababaaaaaaaa sanabb sanabbbbaab sanbabb sanbabbbaabbbb sanbbbbbaa 
-sanbabb sanbabbbaabbbb sanbbbbbaa 
-sanbbbbbaa 
-sanbbbbbaa 
+util(0,4)
+pivot=@ ,[%, #, $, @, ^]
+pidx=3
+pivot=@ ,[%, $, #, @, ^]
+util(0,2)
+pivot=% ,[#, $, %, @, ^]
+pidx=2
+pivot=% ,[$, #, %, @, ^]
+util(0,1)
+pivot=$ ,[#, $, %, @, ^]
+pidx=1
+pivot=$ ,[#, $, %, @, ^]
+util(0,0)
+util(2,1)
+util(3,2)
+util(4,4)
+# $ % @ ^ 
+# $ % @ ^ 
