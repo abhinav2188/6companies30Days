@@ -1,1 +1,89 @@
-1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998 1998
+{ keys: [s] ,indices: []}
+---------------------
+{ keys: [a] ,indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]}
+---------------------
+{ keys: [n] ,indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]}
+---------------------
+{ keys: [a, b] ,indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]}
+---------------------
+{ keys: [a, b] ,indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+{ keys: [a, b] ,indices: [11, 12, 13]}
+---------------------
+{ keys: [a, b] ,indices: [0, 1, 2, 3, 4, 5]}
+{ keys: [a, b] ,indices: [6, 7, 8, 9, 10]}
+{ keys: [b] ,indices: [11, 12]}
+{ keys: [b] ,indices: [13]}
+---------------------
+{ keys: [a, b] ,indices: [0, 1]}
+{ keys: [a] ,indices: [2, 3, 4, 5]}
+{ keys: [a, b] ,indices: [6, 7, 8]}
+{ keys: [b] ,indices: [9, 10]}
+{ keys: [b] ,indices: [11, 12]}
+{ keys: [b] ,indices: [13]}
+---------------------
+{ keys: [a] ,indices: [0]}
+{ keys: [b] ,indices: [1]}
+{ keys: [b] ,indices: [4, 5]}
+{ keys: [a] ,indices: [7]}
+{ keys: [a] ,indices: [8]}
+{ keys: [b] ,indices: [10]}
+{ keys: [b] ,indices: [11, 12]}
+{ keys: [b] ,indices: [13]}
+---------------------
+{ keys: [b] ,indices: [0]}
+{ keys: [a] ,indices: [1]}
+{ keys: [b] ,indices: [4, 5]}
+{ keys: [a] ,indices: [7]}
+{ keys: [a] ,indices: [8]}
+{ keys: [a] ,indices: [10]}
+{ keys: [a] ,indices: [12]}
+{ keys: [a] ,indices: [13]}
+---------------------
+{ keys: [b] ,indices: [0]}
+{ keys: [b] ,indices: [1]}
+{ keys: [a] ,indices: [4, 5]}
+{ keys: [a] ,indices: [7]}
+{ keys: [a] ,indices: [8]}
+{ keys: [a] ,indices: [10]}
+{ keys: [a] ,indices: [12]}
+{ keys: [a] ,indices: [13]}
+---------------------
+{ keys: [b] ,indices: [0]}
+{ keys: [b] ,indices: [1]}
+{ keys: [b] ,indices: [4, 5]}
+{ keys: [b] ,indices: [7]}
+{ keys: [a] ,indices: [8]}
+{ keys: [b] ,indices: [10]}
+{ keys: [b] ,indices: [12]}
+{ keys: [] ,indices: [13]}
+---------------------
+{ keys: [] ,indices: [0]}
+{ keys: [] ,indices: [1]}
+{ keys: [a] ,indices: [5]}
+{ keys: [a] ,indices: [7]}
+{ keys: [a] ,indices: [8]}
+{ keys: [] ,indices: [10]}
+{ keys: [b] ,indices: [12]}
+---------------------
+{ keys: [a] ,indices: [5]}
+{ keys: [b] ,indices: [7]}
+{ keys: [a] ,indices: [8]}
+{ keys: [b] ,indices: [12]}
+---------------------
+{ keys: [] ,indices: [5]}
+{ keys: [a] ,indices: [7]}
+{ keys: [a] ,indices: [8]}
+{ keys: [b] ,indices: [12]}
+---------------------
+{ keys: [] ,indices: [7]}
+{ keys: [a] ,indices: [8]}
+{ keys: [] ,indices: [12]}
+---------------------
+{ keys: [] ,indices: [8]}
+---------------------
+sanaaaaabbb sanaaabbabb sanaab sanaab sanaababba sanaababbabaa sanaba sanabaaaaababa sanababaaaaaaaa sanabb sanabbbbaab sanbabb sanbabbbaabbbb sanbbbbbaa 
+sanaaaaabbb sanaaabbabb sanaab sanaab sanaababba sanaababbabaa sanaba sanabaaaaababa sanababaaaaaaaa sanabb sanabbbbaab sanbabb sanbabbbaabbbb sanbbbbbaa 
+sanaaaaabbb sanaaabbabb sanaab sanaab sanaababba sanaababbabaa sanaba sanabaaaaababa sanababaaaaaaaa sanabb sanabbbbaab sanbabb sanbabbbaabbbb sanbbbbbaa 
+sanbabb sanbabbbaabbbb sanbbbbbaa 
+sanbbbbbaa 
+sanbbbbbaa 
