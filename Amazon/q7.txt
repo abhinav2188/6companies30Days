@@ -1,0 +1,48 @@
+/*
+question:
+https://practice.geeksforgeeks.org/problems/first-non-repeating-character-in-a-stream1216/1#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=5de71cd38bf72ce843380e19e0d9674d&pid=705333&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class GFG
+{
+    public static void main(String[] args) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine().trim());
+        while(T-->0)
+        {
+            String A = br.readLine().trim();
+            Solution ob = new Solution();
+            String ans = ob.FirstNonRepeating(A);
+            System.out.println(ans);
+        }
+    }
+}
+// } Driver Code Ends
+
+// TC ~ O(n)
+// SC ~ O(1)
+
+class Solution
+{
+    public String FirstNonRepeating(String A)
+    {
+        int count[] = new int[26];
+        StringBuilder sb = new StringBuilder();
+        int j=0; 
+        for(int i=0;i<A.length();i++){
+            int ch = A.charAt(i) - 'a';
+            count[ch]++;
+            while(j<=i && count[A.charAt(j)-'a']!=1) j++;
+            if(j>i) sb.append('#');
+            else sb.append(A.charAt(j));
+        }
+        return sb.toString();
+    }
+}
+
