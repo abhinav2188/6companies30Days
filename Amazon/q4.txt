@@ -1,0 +1,83 @@
+/*
+question :
+https://practice.geeksforgeeks.org/problems/brackets-in-matrix-chain-multiplication1024/1/#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=fd47f44f5dcb0a89a428dd56ed58ac61&pid=705397&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(in.readLine());
+        while(t-- > 0){
+            int n = Integer.parseInt(in.readLine());
+            String a[] = in.readLine().trim().split("\\s+");
+            int p[] = new int[n];
+            for(int i = 0;i < n;i++)
+                p[i] = Integer.parseInt(a[i]);
+            
+            Solution ob = new Solution();
+            System.out.println(ob.matrixChainOrder(p, n));
+        }
+    }
+}// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution{
+    static String matrixChainOrder(int p[], int n){
+        // m = matrixCount
+        int m = n-1;
+        long cost[][] = new long[m][m];
+        int breakage[][] = new int[m][m];
+        
+        for(int len = 2; len<=m; len++){
+            for(int i=0;i<=m-len;i++){
+                int j = i+len-1;
+                cost[i][j] = Long.MAX_VALUE;
+                for(int k=i;k<j;k++){
+                    long c = cost[i][k]+cost[k+1][j]+p[i]*p[k+1]*p[j+1];
+                    if(c < cost[i][j]){
+                        breakage[i][j] = k;
+                        cost[i][j] = c;
+                    }
+                }                
+            }
+        }
+        return generateOrder(0,m-1,breakage);
+        
+    }
+    
+    static String generateOrder(int i,int j,int breakage[][]){
+        if(i==j){
+            return (char)('A'+i)+"";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+        int k = breakage[i][j];
+        sb.append(generateOrder(i,k,breakage));
+        sb.append(generateOrder(k+1,j,breakage));
+        sb.append(")");
+        return sb.toString();
+    }
+    
+    
+}
+/*
+0    1    2    3
+1*2, 2*3, 3*4, 4*5
+1 2 3 4 5
+0 1 2 3 4
+    1   2   3   4
+1   0   6   
+2       0   24
+3           0   60
+4               0
+*/
