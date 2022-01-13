@@ -1,0 +1,57 @@
+/*
+question : https://leetcode.com/problems/rotting-oranges/submissions/
+submission :
+https://leetcode.com/submissions/detail/617119578/
+*/
+
+class Pair{
+    int i;
+    int j;
+    public Pair(int x,int y){
+        i = x;
+        j = y;
+    }
+}
+class Solution {
+    final int dirs[][] = {{0,1},{0,-1},{1,0},{-1,0}};
+    public int orangesRotting(int[][] grid) {
+        ArrayDeque<Pair> queue = new ArrayDeque<>();
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(grid[i][j] == 2)
+                    queue.add(new Pair(i,j));
+            }
+        }
+
+        int time = 0;
+        while(queue.size() > 0){
+            int k = queue.size();
+            for(int i1=0;i1<k;i1++){
+                Pair p = queue.poll();
+                for(int dir[] : dirs){
+                    int i = p.i + dir[0];
+                    int j = p.j + dir[1];
+                    if( i>=0 && i<grid.length && j>=0 && j<grid[0].length){
+                        if(grid[i][j] == 1){
+                            grid[i][j] = 2;
+                            queue.add(new Pair(i,j));
+                        }
+                    }
+                }
+            }
+            // for(int g[]:grid)
+            //     System.out.println(Arrays.toString(g));
+            time++;
+        }
+        // System.out.println("------------------");
+        for(int i=0;i<grid.length;i++){
+            for(int j=0;j<grid[0].length;j++){
+                if(grid[i][j] == 1)
+                    return -1;
+            }
+        }
+
+        return time==0?0:time-1;
+
+    }
+}
