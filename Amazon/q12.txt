@@ -1,0 +1,56 @@
+/*
+question :
+https://practice.geeksforgeeks.org/problems/column-name-from-a-given-column-number4244/1/
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=8b4127f59414c115c8011f1852b85c1e&pid=702959&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+import java.lang.*;
+class GfG
+{
+    public static void main (String[] args)
+    {
+
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        while(t-- > 0)
+        {
+            long n = sc.nextLong();
+    		System.out.println (new Solution().colName (n));
+        }
+
+    }
+}
+
+// Contributed By: Pranay Bansal
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+// TC ~ O(log(26)n)
+// SC ~ O(1)
+
+class Solution
+{
+    String colName (long n)
+    {
+        StringBuilder sb = new StringBuilder();
+        while(n>0){
+            n--;
+            long d = n%26;
+            n = n/26;
+            sb.append((char)(d+'A'));
+        }
+        return sb.reverse().toString();
+    }
+}
+
+// X3X2X1
+
+// x1*1 + x2*26 + x3*26*26
