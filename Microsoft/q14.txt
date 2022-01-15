@@ -1,0 +1,78 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/minimum-number-of-steps-to-reach-a-given-number5234/1/
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=343565fe557af90a0e098b6ebb9f9618&pid=704560&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(in.readLine());
+        while(t-- > 0){
+            int D = Integer.parseInt(in.readLine());
+
+            Solution ob = new Solution();
+            System.out.println(ob.minSteps(D));
+        }
+    }
+}// } Driver Code Ends
+
+
+//User function Template for Java
+
+// TC ~ O(logD)
+// SC ~ O(1)
+
+class Solution{
+    static int minSteps(int D){
+        int i = findCeilN(D);
+        // i, i+1 or i+2
+        while( (i*(i+1)/2 - D) % 2 != 0 ) i++;
+        return i;
+    }
+    // given the min of n such that n*(n+1)/2 >= D
+    static int findCeilN(int d){
+        int start = 1;
+        int end = d;
+        int candidate = d;
+        while(start <= end){
+            int mid = start + (end-start)/2;
+            if( mid*(mid+1)/2 < d ) start = mid+1;
+            else{
+                candidate = mid;
+                end = mid-1;
+            }
+        }
+        return candidate;
+    }
+}
+
+
+
+/*
+D = 11
+
+15-11 = 4
+1 -2 3 4 5
+
+29
+8*9/2 = 36-29 = 7
+7+9 = 16/2 = 8
+
+35
+1 2 3 4 -5 6 7 8 9
+45-35 = 1+9 = 10/2 = 5
+
+44
+1 2 3 4 5 6 7 8 9 10 -11
+10*11/2 = 55 - 11 = 44
+45-44+10 = 1 + 10 = 11+11 = 22/2 =11
+
+*/
+
