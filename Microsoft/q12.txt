@@ -1,0 +1,95 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/find-all-four-sum-numbers1732/1
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=d23a287f5640e3ede75f32b770e41641&pid=702139&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+// Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br =
+            new BufferedReader(new InputStreamReader(System.in));
+        int tc = Integer.parseInt(br.readLine().trim());
+
+        while (tc-- > 0) {
+            String[] nk = br.readLine().trim().split(" ");
+            int n = Integer.parseInt(nk[0]);
+            int k = Integer.parseInt(nk[1]);
+
+            String[] str = br.readLine().trim().split(" ");
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) {
+                a[i] = Integer.parseInt(str[i]);
+            }
+
+            Solution sln = new Solution();
+            ArrayList<ArrayList<Integer>> ans = sln.fourSum(a, k);
+            for (ArrayList<Integer> v : ans) {
+                for (int u : v) {
+                    System.out.print(u + " ");
+                }
+                System.out.print("$");
+            }
+            if (ans.isEmpty()) {
+                System.out.print(-1);
+            }
+            System.out.println();
+        }
+    }
+}// } Driver Code Ends
+
+
+// User function Template for Java
+
+// arr[] : int input array of integers
+// k : the quadruple sum required
+
+class Solution {
+    public ArrayList<ArrayList<Integer>> fourSum(int[] arr, int k) {
+
+
+        Arrays.sort(arr);
+        // System.out.println(Arrays.toString(arr));
+        // twoSum(arr,4,0,arr.length-1);
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+
+        if(arr.length < 4) return ans;
+
+        for(int i=0;i<arr.length;i++){
+            for(int j=i+1;j<arr.length;j++){
+                int sum = arr[i]+arr[j];
+                ArrayList<ArrayList<Integer>> twoSums = twoSum(arr,k-sum,j+1,arr.length-1);
+                for(ArrayList<Integer> twoSum : twoSums){
+                    ans.add(new ArrayList<>(Arrays.asList(arr[i],arr[j],twoSum.get(0),twoSum.get(1))));
+                }
+                while(j+1<arr.length && arr[j] == arr[j+1]) j++;
+            }
+            while(i+1<arr.length && arr[i] == arr[i+1]) i++;
+        }
+        return ans;
+    }
+
+    private ArrayList<ArrayList<Integer>> twoSum(int arr[], int target , int start, int end){
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        while(start < end){
+            // System.out.print("["+arr[start]+","+arr[end]+"],");
+            int sum = arr[start] + arr[end];
+            if(sum == target){
+                ans.add(new ArrayList<>(Arrays.asList(arr[start],arr[end])));
+            }
+            if(sum < target){
+                while(start<end && arr[start] == arr[start+1]) start++;
+                start++;
+            }else{
+                while(start<end && arr[end] == arr[end-1]) end--;
+                end--;
+            }
+        }
+        // System.out.println();
+        return ans;
+    }
+}
