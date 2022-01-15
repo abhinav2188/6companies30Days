@@ -1,0 +1,89 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/stock-span-problem-1587115621/1
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=979cd2413783ef62ed1bf61c6ffade44&pid=701342&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+class gfg
+{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        while(t-- > 0)
+        {
+            int n =sc.nextInt();
+            int a[] = new int[n];
+
+            int i = 0;
+            for(i = 0; i < n; i++)
+              a[i] = sc.nextInt();
+
+            int[] s = new Solution().calculateSpan(a, n);
+
+            for(i = 0; i < n; i++)
+            {
+                System.out.print(s[i] + " ");
+            }
+
+            System.out.println();
+        }
+    }
+
+
+
+}// } Driver Code Ends
+
+
+// TC ~ O(n)
+// SC ~ O(n)
+
+class Solution
+{
+    //Function to calculate the span of stockâ€™s price for all n days.
+    public static int[] calculateSpan(int price[], int n)
+    {
+        Stack<Integer> stk = new Stack<>();
+        int span[] = new int[n];
+
+        for(int i=n-1;i>=0;i--){
+            while(stk.size() > 0 && price[stk.peek()] < price[i]){
+                int p = stk.pop();
+                span[p] = p-i;
+            }
+            stk.push(i);
+        }
+
+        while(stk.size() > 0){
+            int p = stk.pop();
+            span[p] = p+1;
+        }
+
+        return span;
+    }
+
+}
+
+/*
+    0    1   2   3   4   5   6
+    100, 80, 60, 70, 60, 75, 85
+                     1
+
+    pop, ans[pop] = pop-i;
+    ans[4] = 4-3
+    ans[2] = 2-1
+    ans[3] = 3-1
+    ans[5] = 5-1
+    ans[1] = 1-0
+    ans[6] = 6-0
+    ans[0] = 0-0
+
+   i = 0,100
+
+
+*/
