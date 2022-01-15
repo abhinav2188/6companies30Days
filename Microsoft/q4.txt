@@ -1,0 +1,95 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/spirally-traversing-a-matrix-1587115621/1/
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=eaf70f2f7a01dd6d7492bf56fb163062&pid=701264&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.io.*;
+import java.util.*;
+class GFG
+{
+    public static void main(String args[])throws IOException
+    {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        while(t-- > 0)
+        {
+            int r = sc.nextInt();
+            int c = sc.nextInt();
+
+            int matrix[][] = new int[r][c];
+
+            for(int i = 0; i < r; i++)
+            {
+                for(int j = 0; j < c; j++)
+                 matrix[i][j] = sc.nextInt();
+            }
+            Solution ob = new Solution();
+            ArrayList<Integer> ans = ob.spirallyTraverse(matrix, r, c);
+            for (Integer val: ans)
+                System.out.print(val+" ");
+            System.out.println();
+        }
+    }
+}// } Driver Code Ends
+
+
+// TC ~ O(m*n)
+// SC ~ O(m*n) for output
+
+class Solution
+{
+    //Function to return a list of integers denoting spiral traversal of matrix.
+    static ArrayList<Integer> spirallyTraverse(int matrix[][], int r, int c)
+    {
+        // for(int m[] : matrix)
+        // System.out.println(Arrays.toString(m));
+
+        ArrayList<Integer> spiralOrder = new ArrayList<>();
+
+        int k = Math.min(r,c);
+
+        for(int d=0;d<k/2;d++){
+            // System.out.println("d="+d);
+            int i,j;
+            i = d; // i = 1
+            for(j=d;j<c-1-d;j++) // j = 1 to 0
+            spiralOrder.add(matrix[i][j]);
+            j = c-1-d; // j = 1
+            for(i=d;i<r-1-d;i++) // i = 1 to 1
+            spiralOrder.add(matrix[i][j]);
+            i = r-1-d; // i = 2
+            for(j=c-1-d;j>d;j--) // j = 1 to 0
+            spiralOrder.add(matrix[i][j]);
+            j=d; // j = 1
+            for(i=r-1-d;i>d;i--) // i = 2 to 2
+            spiralOrder.add(matrix[i][j]);
+        }
+
+        if(k%2!=0)
+        {
+            if(k == r){
+                int i = r/2;
+                for(int j=r/2;j<=c-1-r/2;j++)
+                spiralOrder.add(matrix[i][j]);
+            }
+            else{
+                int j = c/2;
+                for(int i=c/2;i<=r-1-c/2;i++)
+                spiralOrder.add(matrix[i][j]);
+            }
+        }
+
+        return spiralOrder;
+    }
+}
+
+/*
+1 2 3
+4 5 6
+7 8 9
+10 11 12
+13 14 15
+
+*/
