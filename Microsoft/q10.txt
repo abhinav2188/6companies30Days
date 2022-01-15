@@ -1,0 +1,60 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/stickler-theif-1587115621/1/
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=4d42002233798228b5ac348d5d9af25d&pid=701417&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.util.*;
+import java.io.*;
+
+class GFG
+ {
+	public static void main (String[] args)
+	 {
+
+	  //taking input using Scanner class
+	  Scanner sc = new Scanner(System.in);
+
+	  //taking count of testcases
+	  int t = sc.nextInt();
+	  while(t-- > 0){
+
+	      //taking count of houses
+	      int n = sc.nextInt();
+	      int arr[] = new int[n];
+
+	      //inserting money present in
+	      //each house in the array
+	      for(int i = 0; i<n; ++i)
+	           arr[i] = sc.nextInt();
+
+  	      //calling method FindMaxSum() of class solve
+  	      System.out.println(new Solution().FindMaxSum(arr, n));
+	 }
+   }
+}// } Driver Code Ends
+
+// TC ~ O(n)
+// SC ~ O(1)
+
+class Solution
+{
+    //Function to find the maximum money the thief can get.
+    public int FindMaxSum(int arr[], int n)
+    {
+        if(n == 1) return arr[0];
+        if(n == 2) return Math.max(arr[0],arr[1]);
+
+        int dp0 = arr[0];
+        int dp1 = Math.max(arr[0],arr[1]);
+
+        for(int i=2;i<n;i++){
+            int dp2 = Math.max(dp1,dp0+arr[i]);
+            dp0 = dp1;
+            dp1 = dp2;
+        }
+
+        return dp1;
+
+    }
+}
