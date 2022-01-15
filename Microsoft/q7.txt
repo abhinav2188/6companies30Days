@@ -1,0 +1,76 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/length-of-largest-region-of-1s-1587115620/1/
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=b44a6d62025b5a025d4ecd0778ec2b35&pid=701276&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class GFG
+{
+    public static void main(String[] args) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine().trim());
+        while(T-->0)
+        {
+            String[] s = br.readLine().trim().split(" ");
+            int n = Integer.parseInt(s[0]);
+            int m = Integer.parseInt(s[1]);
+            int[][] grid = new int[n][m];
+            for(int i = 0; i < n; i++){
+                String[] S = br.readLine().trim().split(" ");
+                for(int j = 0; j < m; j++){
+                    grid[i][j] = Integer.parseInt(S[j]);
+                }
+            }
+            Solution obj = new Solution();
+            int ans = obj.findMaxArea(grid);
+            System.out.println(ans);
+        }
+    }
+}// } Driver Code Ends
+
+
+class Solution
+{
+    //Function to find unit area of the largest region of 1s.
+
+    private int dirs[][] = {
+        {0,1},{0,-1},{1,0},{-1,0},{1,1},{-1,1},{-1,-1},{1,-1}
+    };
+
+    public int findMaxArea(int[][] grid)
+    {
+        int maxArea = 0;
+        int n = grid.length;
+        int m = grid[0].length;
+        boolean visited[][] = new boolean[n][m];
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(!visited[i][j] && grid[i][j] == 1){
+                    int area = findMaxAreaUtil(grid,i,j,visited,n,m);
+                    maxArea = Math.max(maxArea,area);
+                }
+            }
+        }
+        return maxArea;
+    }
+
+    private int findMaxAreaUtil(int grid[][],int i,int j, boolean visited[][], int n,int m){
+        if(visited[i][j]) return 0;
+        visited[i][j] = true;
+        int count = 1;
+        for(int dir[] : dirs){
+            int x = i + dir[0];
+            int y = j + dir[1];
+            if(x>=0 && x<n && y>=0 && y<m){
+                if(grid[x][y] == 1)
+                count += findMaxAreaUtil(grid,x,y,visited,n,m);
+            }
+        }
+        return count;
+    }
+}
