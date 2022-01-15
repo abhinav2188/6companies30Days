@@ -1,0 +1,79 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/possible-words-from-phone-digits-1587115620/1/
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=68f0098babe6bb3ab32ef207d4ef1a87&pid=701199&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+//Initial Template for Java
+
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+class PhoneDigit
+{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();//testcases
+
+
+        while(t-- > 0)
+        {
+            int n = sc.nextInt(); // input size of array
+            int arr[] = new int[n]; //input the elements of array that are keys to be pressed
+
+            for(int i = 0; i < n; i++)
+               arr[i] = sc.nextInt();//input the elements of array that are keys to be pressed
+            ArrayList <String> res = new Solution().possibleWords(arr, n);
+            for (String i : res) System.out.print (i + " ");
+             System.out.println();
+
+        }
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+// TC ~ O(4^n * n)
+// SC ~ O(N) + O(4^n) for output
+
+class Solution
+{
+    //Function to find list of all words possible by pressing given numbers.
+    static ArrayList<String> words;
+    static List<List<Character>> chars;
+
+    static ArrayList <String> possibleWords(int a[], int N)
+    {
+        words = new ArrayList<>();
+        chars = new ArrayList<>();
+        chars.add(Arrays.asList('a','b','c'));
+        chars.add(Arrays.asList('d','e','f'));
+        chars.add(Arrays.asList('g','h','i'));
+        chars.add(Arrays.asList('j','k','l'));
+        chars.add(Arrays.asList('m','n','o'));
+        chars.add(Arrays.asList('p','q','r','s'));
+        chars.add(Arrays.asList('t','u','v'));
+        chars.add(Arrays.asList('w','x','y','z'));
+
+        possibleWordsUtil(0,a,N,"");
+        return words;
+    }
+
+    // O(4^N)
+    static private void possibleWordsUtil(int idx, int a[], int N, String word){
+        if(idx == N){
+            words.add(word);
+            return;
+        }
+        for(char ch : chars.get(a[idx]-2)){
+            // O(n) for making new string word+ch
+            possibleWordsUtil(idx+1,a,N,word+ch);
+        }
+    }
+}
+
+
