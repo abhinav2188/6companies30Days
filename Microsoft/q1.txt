@@ -30,7 +30,7 @@ class GfG
 //User function Template for Java
 
 // TC ~ O( n * |sum of arr| )
-// SC ~ O( n * |sum of arr| )
+// SC ~ O( |sum of arr| )
 
 class Solution
 {
