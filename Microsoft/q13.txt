@@ -1,0 +1,83 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/bridge-edge-in-graph/1#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=551bd640ef2db3ee35a939fc2cfef233&pid=700463&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+class DriverClass
+{
+    public static void main (String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        
+        while(t-- > 0)
+        {
+            ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+            int V = sc.nextInt();
+            int E = sc.nextInt();
+            for(int i = 0; i < V+1; i++)
+                list.add(i, new ArrayList<Integer>());
+            for(int i = 0; i < E; i++)
+            {
+                int u = sc.nextInt();
+                int v = sc.nextInt();
+                list.get(u).add(v);
+                list.get(v).add(u);
+            }
+            int c = sc.nextInt();
+            int d = sc.nextInt();
+            
+            Solution ob = new Solution();
+            
+            System.out.println(ob.isBridge(V,list,c,d));
+        }
+    }
+}// } Driver Code Ends
+
+
+// TC ~ O(V+E)
+// SC ~ O(V)
+
+class Solution
+{
+    //Function to find if the given edge is a bridge in graph.
+    static int isBridge(int V, ArrayList<ArrayList<Integer>> adj,int c,int d)
+    {
+        // System.out.println(adj);    
+        boolean visited[] = new boolean[adj.size()];
+        
+        int components = 0;
+        for(int i=0;i<adj.size()-1;i++){
+            if(!visited[i]){
+                dfs(i,adj,-1,-1,visited);
+                components++;
+            }
+        }
+        // System.out.println("components= "+components);
+        Arrays.fill(visited,false);
+
+        int k = 0;
+        for(int i=0;i<adj.size()-1;i++){
+            if(!visited[i]){
+                // System.out.println("dfs("+i+")");
+                dfs(i,adj,c,d,visited);
+                k++;
+            }
+            if(k>components) return 1;
+        }
+        
+        return 0;
+    }
+    
+    static void dfs(int u,ArrayList<ArrayList<Integer>> adj,int c,int d,boolean visited[]){
+        visited[u] = true;
+        for(int v : adj.get(u)){
+            if(u==c && v==d || u==d && v==c) continue;
+            if(!visited[v]) dfs(v,adj,c,d,visited);
+        }
+    }
+}
