@@ -1,0 +1,189 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/alien-dictionary/1/#
+submission : 
+https://practice.geeksforgeeks.org/viewSol.php?subId=b765e34487873efe2b116feac06d7301&pid=700494&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+import java.math.*;
+
+class GFG {
+	public static void main (String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int t = Integer.parseInt(sc.next());
+		while(t-- > 0)
+		{
+		    int n = Integer.parseInt(sc.next());
+		    int k = Integer.parseInt(sc.next());
+		    
+		    String[] words = new String[n];
+		    
+		    for(int i=0;i<n;i++)
+		    {
+		        words[i] = sc.next();
+		    }
+		    
+		    Solution ob = new Solution();
+		  //  System.out.println(T.findOrder(words,k));
+		    String order = ob.findOrder(words,n,k);
+		    if(order.length() == 0){
+		        System.out.println(0);
+		        continue;
+		    }
+		    String temp[] = new String[n];
+		    for(int i=0;i<n;i++)
+		        temp[i] = words[i];
+		    
+		    Arrays.sort(temp, new Comparator<String>(){
+		    
+		      @Override
+                public int compare(String a, String b) {
+                    int index1 = 0;
+                    int index2 = 0;
+                    for(int i = 0; i < Math.min(a.length(), b.length()) 
+                                        && index1 == index2; i++) {
+                        index1 = order.indexOf(a.charAt(i));
+                        index2 = order.indexOf(b.charAt(i));
+                    }
+                
+                    if(index1 == index2 && a.length() != b.length()) 
+                    {
+                        if(a.length() < b.length())
+                            return 1;
+                        else
+                            return 0;
+                    }
+                
+                    if(index1 < index2)
+                        return 1;
+                    else
+                        return 0;
+                        
+                }
+		    });
+		    
+		    int flag = 1;
+		    for(int i=0;i<n;i++)
+		    {
+		        if(!words[i].equals(temp[i]))
+	            {
+	                flag = 0;
+	                break;
+	            }
+		    }
+		    
+		    System.out.println(flag);
+		}
+	}
+	
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+// TC ~ O(N*|S| + K^2)
+// SC ~ O(k^2)
+
+class Solution
+{
+    public String findOrder(String [] dict, int N, int K)
+    {
+        // list of character which comes earlier than the current char
+        Set<Integer> dlist[] = new Set[K];
+        for(int i=0;i<K;i++){
+            dlist[i] = new HashSet<>();
+        }
+        if(!computeDListUtil(dict,dlist,0,0,N-1)) return "";
+        
+        ArrayDeque<Integer> stk = new ArrayDeque<>();
+        int state[] = new int[K];
+        boolean isPossible = true;
+        for(int i=0;i<K;i++){
+            if(state[i] == 0)
+            isPossible = isPossible && topologicalSort(dlist,i,stk,state);
+        }
+        if(!isPossible) return "";
+        
+        // System.out.println(stk);
+        StringBuilder sb = new StringBuilder();
+        while(stk.size() > 0){
+            sb.append((char)(stk.pop()+'a'));
+        }
+        
+        
+        return sb.toString();
+    }
+    
+    private boolean topologicalSort(Set<Integer> dlist[] , int u, ArrayDeque<Integer> stk, int state[]){
+        if(state[u]==2) return true;
+        state[u] = 1;
+        boolean ans = true;
+        for(int v: dlist[u]){
+            if(state[v] == 1) return false;
+            else if(state[v] == 0) ans = ans && topologicalSort(dlist,v,stk,state);
+            if(!ans) return false;
+        }
+        state[u] = 2;
+        stk.offerLast(u);
+        return ans;
+    }
+
+    private boolean computeDListUtil(String dict[] , Set<Integer> dlist[], int idx, int start, int end){
+        // System.out.println("util("+idx+","+start+","+end+")");
+        boolean ans = true;
+        char ch1 = 0;
+        int i = start;
+        while(i<=end && dict[i].length() <= idx) i++;
+        while(i<=end){
+            int j = i;
+            String word = dict[i];
+            if(word.length() <= idx){
+                return false;
+            }
+            char ch2 = word.charAt(idx);
+            while(i+1<=end && dict[i+1].length()>idx && ch2 == dict[i+1].charAt(idx) ){
+                i++;
+            }
+            if(i-j > 0) ans = ans && computeDListUtil(dict,dlist,idx+1,j,i);
+            if(ch1 != 0){
+                dlist[ch2-'a'].add(ch1-'a');
+            }
+            ch1 = ch2;
+            i++;
+        }
+        // System.out.println("ans: "+ans);
+        return ans;
+    }
+}
+
+/*
+{"baa","abcd","abca","cab","cad"}
+
+list of characters behind me
+
+a [b,d] 2
+b [] 2
+c [a] 2
+d [b] 2
+
+
+
+ans = b,d,a,c
+b->d->a->c
+
+b->e->a->d->c
+
+abcde,ded,de,adc,ad,accd,accde,bdc,dce
+
+bdc,abcde,adc,ad,accd,accde,ded,de,dce
+
+
+9 5
+bdc abcde ad adc accd accde de ded dce
+
+*/
+
