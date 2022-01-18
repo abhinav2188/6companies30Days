@@ -1,0 +1,64 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/longest-arithmetic-progression1019/1/#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=ec2e07ade1c9f2919fd3a140f6b12c2f&pid=703290&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int tc = Integer.parseInt(br.readLine().trim());
+        while (tc-- > 0) {
+            int n = Integer.parseInt(br.readLine().trim());
+            int a[] = new int[n];
+            String inputLine[] = br.readLine().trim().split(" ");
+            for (int i = 0; i < n; i++) {
+                a[i] = Integer.parseInt(inputLine[i]);
+            }
+            int ans = new Solution().lengthOfLongestAP(a, n);
+            System.out.println(ans);
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution {
+    int lengthOfLongestAP(int[] A, int n) {
+        
+        if(n<=2) return n;
+        
+        // for each element we store all the difference with the previous elements, 
+        // the count of such AP elements with that difference
+        
+        int longestAP = 0;
+        //Map<CommonDifference,Count>
+        Map<Integer,Integer> map[] = new Map[n];
+        map[0] = new HashMap<>();
+        for(int i=1;i<n;i++){
+            map[i] = new HashMap<>();
+            for(int j=i-1;j>=0;j--){
+                int d = A[i] - A[j];
+                if(map[j].containsKey(d)){
+                    map[i].put(d,map[j].get(d)+1);
+                }
+                else{
+                    map[i].put(d,2);
+                }
+                longestAP = Math.max(longestAP,map[i].get(d));
+            }
+        }
+        
+        // System.out.println(Arrays.toString(map));
+        return longestAP;
+        
+    }
+}
