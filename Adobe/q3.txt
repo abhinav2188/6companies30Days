@@ -1,0 +1,59 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/7b9d245852bd8caf8a27d6d3961429f0a2b245f1/1/#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=6291532e228a6631a737731c6467d0d4&pid=706392&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+
+import java.io.*;
+import java.util.*;
+
+class GFG
+{
+    public static void main(String args[])throws IOException
+    {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while(t-- > 0)
+        {
+            int N = sc.nextInt();
+            int K = sc.nextInt();
+
+            Solution ob = new Solution();
+            int ans = ob.kvowelwords(N,K);
+            System.out.println(ans);
+        }
+    }
+}// } Driver Code Ends
+
+
+// TC ~ O(N*K)
+// SC ~ O(N*K)
+
+class Solution{
+    
+    final int M = (int)Math.pow(10,9)+7;
+    long memo[][];
+    
+    public int kvowelwords(int N,int K){
+        memo = new long[N+1][K+1];
+        return (int)kVowelUtil(N,K,K);
+    }
+    
+    private long kVowelUtil(int N,int K,int x){
+        //when number of consecutive vowels exceeds K
+        if(K<0) return 0;
+        // null case 
+        if(N==0) return 1;
+        if(memo[N][x] != 0) return memo[N][x];
+        
+        // if number of consecutive vowels = K then we have to have a consonant next,
+        // after that we can again have K consecutive vowels
+        if(x==0) 
+        return memo[N][x] = (21*kVowelUtil(N-1,K,K))%M;
+        // normal case : where we can have either a consonant or a vowel
+        else
+        return memo[N][x] = ((21*kVowelUtil(N-1,K,K))%M + (5*kVowelUtil(N-1,K,x-1))%M)%M;
+        
+    }
+}
