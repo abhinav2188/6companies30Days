@@ -1,0 +1,83 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/pots-of-gold-game/1/
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=8354c2c4eb73e725173fba79891eed0d&pid=700428&user=iil0nty02p8sq5leaeaek3zwro7xll9wbfhxfapk
+*/
+
+import java.util.*;
+import java.lang.Math;
+class Pots{
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		while(t-- > 0)
+		{
+			int n = sc.nextInt();
+			int[] a =new  int[n];
+			for(int i=0;i<n;i++)
+			{
+				a[i] = sc.nextInt();
+			}
+			GfG g = new GfG();
+			System.out.println(g.maxCoins(a,n));
+			
+		}
+	}
+}// } Driver Code Ends
+
+
+/*Complete the function below*/
+class GfG
+{
+    static class Pair{
+        int x;
+        int y;
+        Pair(int a,int b){
+            x = a;
+            y = b;
+        }
+    }
+    static Pair memo[][];
+	public static int maxCoins(int A[],int n)
+	{
+	    memo = new Pair[n][n];
+	    for(int i=0;i<n;i++){
+	        for(int j=0;j<n;j++){
+	            memo[i][j] = new Pair(-1,-1);
+	        }
+	    }
+	    Pair p = maxCoinsUtil(A,0,n-1,0);
+	    return p.x;
+    }
+    
+    private static Pair maxCoinsUtil(int A[],int i,int j,int turn){
+        if(i==j){
+            if(turn == 0) return new Pair(A[i],0);
+            else return new Pair(0,A[j]);
+        }
+        if(memo[i][j].x != -1 && memo[i][j].y != -1 ){
+            return memo[i][j];
+        }
+        Pair p1 = maxCoinsUtil(A,i+1,j,(1^turn));
+        Pair p2 = maxCoinsUtil(A,i,j-1,(1^turn));
+        if(turn == 0){
+            int c1 = p1.x + A[i];
+            int c2 = p2.x + A[j];
+            if(c1 >= c2) return memo[i][j] = new Pair(c1,p1.y);
+            else return memo[i][j] = new Pair(c2,p2.y);
+        }
+        else{
+            int c1 = A[i] + p1.y;
+            int c2 = A[j] + p2.y;
+            if(c1 >= c2) return memo[i][j] = new Pair(p1.x,c1);
+            else return memo[i][j] = new Pair(p2.x,c2);
+        }
+    }
+    
+    
+}
+
+/*
+[8,15,3,7]
+maxPoints(a,0,3) = a[0]+maxPoints(a,1,3) + a[3]+maxPoints(a,0,2)
+*/
