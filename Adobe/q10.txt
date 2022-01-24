@@ -1,0 +1,76 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/winner-of-an-election-where-votes-are-represented-as-candidate-names-1587115621/1/#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=1efafde2d5f9f7f4be985179798fc349&pid=701290&user=mosshead
+*/
+
+import java.io.*;
+import java.util.*;
+
+class GfG
+{
+    public static void main (String[] args)
+    {
+
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+        while(t-- > 0)
+        {
+            int n = sc.nextInt();
+            String arr[] = new String[n];
+
+            for(int i = 0; i < n; i++)
+                arr[i] = sc.next();
+
+            Solution obj = new Solution();
+            String result[] = obj.winner(arr, n);
+            System.out.println(result[0] + " " + result[1]);
+
+
+        }
+
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+
+class Solution
+{
+    //Function to return the name of candidate that received maximum votes.
+    public static String[] winner(String arr[], int n)
+    {
+        HashSet<String> candidates = new HashSet<>();
+        Map<String,Integer> votesCount = new HashMap<>();
+
+        for(int i=0;i<n;i++){
+            candidates.add(arr[i]);
+            votesCount.computeIfPresent(arr[i],(k,v)->v+1);
+            votesCount.computeIfAbsent(arr[i], k->1);
+        }
+
+        // System.out.println(votesCount);
+
+        String ans[] = new String[2];
+        int maxVotes = 0;
+        for(String candidate : candidates){
+            if(votesCount.get(candidate) > maxVotes){
+                maxVotes = votesCount.get(candidate);
+                ans[0] = candidate;
+            }
+            else if(votesCount.get(candidate) == maxVotes){
+                if(ans[0].compareTo(candidate) > 0)
+                ans[0] = candidate;
+            }
+        }
+
+        ans[1] = String.valueOf(maxVotes);
+
+        return ans;
+
+    }
+}
+
