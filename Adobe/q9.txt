@@ -1,0 +1,99 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/next-higher-palindromic-number-using-the-same-set-of-digits5859/1/
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=5ecc36d3b66a7e873dd14ad5667a44a8&pid=703481&user=mosshead
+*/
+
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GfG
+{
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while(t-->0)
+        {
+            String s = sc.next();
+            Solution obj = new Solution();
+            System.out.println(obj.nextPalin(s));
+        }
+
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution
+{
+    public String nextPalin(String N)
+    {
+        String str = nextPermutation(N.substring(0,N.length()/2));
+        // System.out.println(str);
+        if(str.equals("-1")) return str;
+        StringBuilder sb = new StringBuilder(str);
+        if(N.length()%2 == 0){
+            String ans = sb.toString() + sb.reverse().toString();
+            return ans;
+        }
+        else{
+            String ans = sb.toString() + N.charAt(N.length()/2) + sb.reverse().toString();
+            return ans;
+        }
+    }
+    public String nextPermutation(String str){
+        // System.out.println("str:"+str);
+
+        char chars[] = str.toCharArray();
+        // find the first index from last such that the char[i] < char[i+1]
+
+        int i = chars.length - 2;
+        while(i>=0 && chars[i] >= chars[i+1]) i--;
+
+        if(i < 0) return "-1";
+
+        // find the smallest number greater than
+        int j = findSmallestGreater(chars,chars[i],i+1,chars.length-1);
+
+        swap(chars,i,j);
+        reverse(chars,i+1,chars.length-1);
+
+        return String.valueOf(chars);
+    }
+
+    private int findSmallestGreater(char chars[], char ch, int start,int end){
+        int candidate = -1;
+        while(start <= end){
+            int mid = start + (end-start)/2;
+            if(chars[mid] > ch){
+                candidate = mid;
+                start = mid+1;
+            }
+            else{
+                end = mid-1;
+            }
+        }
+        return candidate;
+    }
+
+    private void swap(char chars[],int i,int j){
+        char tmp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = tmp;
+    }
+
+    private void reverse(char chars[], int i,int j){
+        while(i<j){
+            swap(chars,i,j);
+            i++;
+            j--;
+        }
+    }
+}
+
+
