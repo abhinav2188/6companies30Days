@@ -1,0 +1,49 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/amend-the-sentence3235/1#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=a3a9812908d658d5911465e560b77ec8&pid=702907&user=mosshead
+*/
+
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+
+class GFG{
+    public static void main(String args[]) throws IOException {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+
+        while(t-- > 0){
+
+
+            // input n array elements
+            String s = read.readLine();
+
+            Solution ob = new Solution();
+
+            System.out.println(ob.amendSentence(s));
+        }
+    }
+} // } Driver Code Ends
+
+
+//User function Template for Java
+
+ class Solution{
+    public String amendSentence(String s){
+        StringBuffer sb = new StringBuffer();
+        for(int i=0;i<s.length();i++){
+            char ch = s.charAt(i);
+            if(Character.isUpperCase(ch)){
+                if(i!=0) sb.append(' ');
+                sb.append((char)(ch+32));
+            }
+            else{
+                sb.append(ch);
+            }
+        }
+        return sb.toString();
+    }
+}
+
