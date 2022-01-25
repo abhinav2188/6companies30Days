@@ -1,0 +1,99 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/find-smallest-range-containing-elements-from-k-lists/1/#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=e75c4894637dd049f2f254bc08ab6b8d&pid=700497&user=mosshead
+*/
+
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+public class DriverClass
+{
+	public static void main(String args[])
+	{
+	   Scanner sc = new Scanner(System.in);
+	   int t = sc.nextInt();
+	   int range[];
+	   while(t-- >0)
+	   {
+	     int n = sc.nextInt();
+	     int k = sc.nextInt();
+	     int arr[][] = new int[k][n];
+	       for(int i = 0; i < k; i++)
+	       {
+	        for(int j = 0; j < n; j++)
+	               arr[i][j] = sc.nextInt();
+	       }
+	       range = new Solution().findSmallestRange(arr, n, k);
+	       System.out.println(range[0] + " " + range[1]);
+	   }
+	}
+}
+// } Driver Code Ends
+
+// TC ~ O(n*k*logk)
+// SC ~ O(k)
+
+class Solution
+{
+    static class Pair{
+        int list;
+        int idx;
+        public Pair(int l,int v){
+            this.list = l;
+            this.idx = v;
+        }
+        public String toString(){
+            return "["+list+","+idx+"]";
+        }
+    }
+
+	static int[] findSmallestRange(int[][] KSortedArray,int n,int k)
+	{
+
+	    PriorityQueue<Pair> minHeap = new PriorityQueue<>(
+	        (p1,p2) -> KSortedArray[p1.list][p1.idx]- KSortedArray[p2.list][p2.idx]);
+
+	    int max = 0;
+	    for(int i=0;i<k;i++){
+	        minHeap.offer(new Pair(i,0));
+	        max = Math.max(max, KSortedArray[i][0]);
+	    }
+
+	    int minRange[] = {0,Integer.MAX_VALUE};
+
+
+	    while(minHeap.size() == k){
+	       // System.out.println(minHeap);
+	        Pair minPair = minHeap.poll();
+	        int min = KSortedArray[minPair.list][minPair.idx];
+	        if(minRange[1]-minRange[0] > (max-min)) {
+	            minRange[0] = min;
+	            minRange[1] = max;
+	        }
+	        if(minPair.idx < n-1){
+	            max = Math.max(max, KSortedArray[minPair.list][minPair.idx+1]);
+	            minHeap.offer(new Pair(minPair.list,minPair.idx+1));
+	        }
+	    }
+
+	    return minRange;
+
+
+	}
+}
+
+
+/*
+{{1 2 3 4},
+{5 6 7 8},
+{9 10 11 12}}
+
+idx [1,0,0]
+
+// list number , value
+min = (0,2)
+max = (9,2)
+
+*/
