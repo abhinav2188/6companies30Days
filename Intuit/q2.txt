@@ -1,0 +1,78 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/word-search/1/#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=36c5fa9c160680310da781ff78cd7695&pid=702088&user=mosshead
+*/
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class GFG
+{
+    public static void main(String[] args) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine().trim());
+        while(T-->0)
+        {
+            String[] S = br.readLine().trim().split(" ");
+            int n = Integer.parseInt(S[0]);
+            int m = Integer.parseInt(S[1]);
+            char [][] board = new char[n][m];
+            for(int i = 0; i < n; i++){
+                String[] s = br.readLine().trim().split(" ");
+                for(int j = 0; j < m; j++){
+                    board[i][j] = s[j].charAt(0);
+                }
+            }
+            String word = br.readLine().trim();
+            Solution obj = new Solution();
+            boolean ans = obj.isWordExist(board, word);
+            if(ans)
+                System.out.println("1");
+            else
+                System.out.println("0");
+       }
+    }
+}// } Driver Code Ends
+
+
+class Solution
+{
+    public boolean isWordExist(char[][] board, String word)
+    {
+        int n = board.length;
+        int m = board[0].length;
+
+        boolean visited[][] = new boolean[n][m];
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(isWordExistUtil(board,i,j,word,0,visited)) return true;
+            }
+        }
+
+        return false;
+    }
+
+    final int dirs[][] = {{0,1},{1,0},{-1,0},{0,-1}};
+    private boolean isWordExistUtil(char board[][], int i, int j, String word, int idx, boolean visited[][]){
+
+        visited[i][j] = true;
+
+        boolean ans = false;
+        if( board[i][j] == word.charAt(idx) ){
+            if(idx == word.length()-1) ans = true;
+            for(int dir[] : dirs){
+                int x = i + dir[0];
+                int y = j + dir[1];
+                if( x >= 0 && x<board.length && y>=0 && y<board[0].length && !visited[x][y])
+                ans = ans || isWordExistUtil(board,x,y,word,idx+1,visited);
+            }
+        }
+
+        visited[i][j] = false;
+        return ans;
+
+    }
+}
