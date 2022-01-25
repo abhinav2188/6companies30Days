@@ -1,0 +1,66 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/minimum-sum-partition3317/1/
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=902610b1d7adf3f3ba32161f75b8d706&pid=704140&user=mosshead
+*/
+
+//Initial Template for Java
+
+import java.io.*;
+import java.util.*;
+class GfG
+{
+    public static void main(String args[])
+        {
+            Scanner sc = new Scanner(System.in);
+            int t = sc.nextInt();
+            while(t-->0)
+                {
+                    int n = sc.nextInt();
+                    int A[] = new int[n];
+                    for(int i = 0;i<n;i++)
+                        A[i] = sc.nextInt();
+                    Solution ob = new Solution();
+                    System.out.println(ob.minDifference(A,n));
+                }
+        }
+}    // } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution
+{
+
+	public int minDifference(int arr[], int n)
+	{
+	    if(n==1) return arr[0];
+	    int sum = 0;
+	    for(int a : arr) sum+=a;
+
+	    boolean dpCurr[] = new boolean[sum/2+1];
+	    // dp[i][j] = true if any subset of arr[1 to i] can have sum = j
+
+	    // sum = 0 is always possible when we use 0 elements
+	    dpCurr[0] = true;
+
+	    for(int i=1;i<=n;i++){
+	        boolean dpNext[] = new boolean[sum/2+1];
+	        for(int j=0;j<=sum/2;j++){
+	            if(arr[i-1] <= j)
+	            dpNext[j] = dpCurr[j] || dpCurr[j-arr[i-1]];
+	            else
+	            dpNext[j] = dpCurr[j];
+	        }
+	        dpCurr = dpNext;
+	    }
+
+        for(int i=sum/2;i>=0;i--){
+            if(dpCurr[i]){
+                return (sum-i)-i;
+            }
+        }
+
+	    return 0;
+	}
+}
