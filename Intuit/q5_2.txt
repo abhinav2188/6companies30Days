@@ -1,0 +1,55 @@
+/*
+question : https://leetcode.com/problems/split-array-largest-sum/submissions/
+submission : https://leetcode.com/submissions/detail/628405763/
+*/
+
+// TC ~ O(log(sum(arr))) * O(n)
+// SC ~ O(1)
+
+class Solution {
+
+    public int splitArray(int[] nums, int m) {
+
+        int max = 0;
+        int totalSum = 0;
+
+        for(int num : nums){
+            max = Math.max(max,num);
+            totalSum += num;
+        }
+
+        // min splitArray sum can lie b/w max and totalSum
+        int start = max;
+        int end = totalSum;
+
+        int candidate = -1;
+        while(start <= end){
+            int mid = start + (end-start)/2;
+            if(canSplit(nums,m,mid)){
+                candidate = mid;
+                end = mid-1;
+            }
+            else{
+                start = mid+1;
+            }
+        }
+
+        return candidate;
+
+    }
+
+    private boolean canSplit(int nums[], int m, int target){
+        int i=0;
+        int splits = 0;
+        while(i<nums.length){
+            int ssum = 0;
+            while(i<nums.length && ssum+nums[i] <= target){
+                ssum+=nums[i];
+                i++;
+            }
+            splits++;
+        }
+        return (splits <= m);
+    }
+
+}
