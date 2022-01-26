@@ -1,0 +1,107 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/largest-number-in-k-swaps-1587115620/1#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=96d5eed9355004a57ce466ef775578dd&pid=701369&user=mosshead
+*/
+
+import java.io.*;
+import java.util.*;
+class GfG
+{
+    public static void main(String args[])throws IOException
+        {
+            Scanner sc = new Scanner(System.in);
+            int t = sc.nextInt();
+            while(t-->0)
+                {
+                    int k = sc.nextInt();
+                    String str = sc.next();
+                    Solution obj = new Solution();
+                    System.out.println(obj.findMaximumNum(str, k));
+                }
+        }
+}// } Driver Code Ends
+
+
+
+
+class Solution
+{
+    static String max;
+    //Function to find the largest number after k swaps.
+    public static String findMaximumNum(String str, int k){
+        char chars[] = str.toCharArray();
+        max = str;
+        findMaxUtil(chars,k);
+        return max;
+    }
+
+    private static void findMaxUtil(char chars[], int k){
+
+        String str = String.valueOf(chars);
+        if(str.compareTo(max) > 0)
+        max = str;
+
+        if(k==0) return;
+
+        for(int i=0;i<chars.length-1;i++){
+            for(int j=i+1;j<chars.length;j++){
+                if(chars[j] > chars[i]){
+                    swap(chars,i,j);
+                    findMaxUtil(chars,k-1);
+                    swap(chars,i,j);
+                }
+            }
+        }
+
+    }
+    private static void swap(char chars[],int i,int j){
+        char ch = chars[i];
+        chars[i] = chars[j];
+        chars[j] = ch;
+    }
+
+
+    private static String swap(String str,int i, int j){
+        return str.substring(0,i) + str.charAt(j) + str.substring(i+1,j)
+        + str.charAt(i) + str.substring(j+1);
+    }
+
+}
+
+/*
+_ * _ _ _ * _ * * _ * * _ _ _ * _
+9 8 8 7 7 7 7 6 6 6 6 4 4 3 3 2 2
+9 8 8 7 7 7 7 6 6 6 6 4 4 3 3 2 2
+
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6
+7 8 6 2 6 7 4 9 8 7 6 4 7 2 6 3 3
+
+= * = = = * = = * * * * * _ _ _ _
+9 8 8 7 7 7 7 6 6 6 6 4 4 3 3 2 2
+9 8 8 7 7 7 7 6 6 6 6 4 4 3 2 2 3
+
+= * = _ _ * _ _ * _ * * _ _ _ _ _
+9 8 8 7 7 7 7 6 6 6 6 4 4 3 3 2 2
+9 8 8 2 6 7 4 7 6 7 6 4 7 2 6 3 3
+
+swap 3 with 7, 9 or 12
+swap(3,12)
+gain = (7-2)*10^(17-3-1) - (7-2)*10(17-12-1) =
+swap(3,9)
+gain = (7-2)*10^(17-3-1) - (7-2)*10^(17-7-1)
+
+swaps = 0
+
+9 8 8 7 7 7 7 6 6 6 6 4 4 3 3 2 2
+9 8 8 7 7 7 4 7 6 6 6 4 2 2 6 3 3
+
+98877776646422633
+
+
+78626749876472633
+
+1
+98877747666422633
+
+*/
