@@ -1,0 +1,55 @@
+/*
+question : https://leetcode.com/problems/split-array-largest-sum/submissions/
+submission : https://leetcode.com/submissions/detail/628383746/
+*/
+
+class Solution {
+
+    int subarraySum[][];
+    int minSubarraySum[][];
+
+    public int splitArray(int[] nums, int m) {
+
+        if(m >= nums.length){
+            int tmp = 0;
+            for(int num:nums) tmp = Math.max(tmp,num);
+            return tmp;
+        }
+
+        subarraySum = new int[nums.length][nums.length];
+        for(int i=0;i<nums.length;i++){
+            int tmp = 0;
+            for(int j=i;j<nums.length;j++){
+                tmp+=nums[j];
+                subarraySum[i][j] = tmp;
+            }
+        }
+
+        // minSubarraySum[i][k] is the min of the subarraySums that can be done on arr[i to nums.length-1] with k splits
+        minSubarraySum = new int[nums.length][m];
+        for(int oned[] : minSubarraySum){
+            Arrays.fill(oned,-1);
+        }
+
+        return minSplitSum(nums,m-1,0);
+    }
+
+
+    private int minSplitSum(int nums[],int m,int idx){
+
+        // System.out.println("split("+idx+")");
+        if(m==0) return subarraySum[idx][nums.length-1];
+        if(minSubarraySum[idx][m] != -1) return minSubarraySum[idx][m];
+
+        int minSum = Integer.MAX_VALUE;
+
+        for(int i=idx;i<nums.length-m;i++){
+            // try splitting at ith index
+            int maxSubarraySum = Math.max( subarraySum[idx][i] , minSplitSum(nums,m-1,i+1) );
+            minSum = Math.min(minSum, maxSubarraySum);
+        }
+
+        return minSubarraySum[idx][m] = minSum;
+    }
+}
+
