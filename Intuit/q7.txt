@@ -1,0 +1,61 @@
+/*
+question : https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+submission : https://leetcode.com/submissions/detail/629033111/
+*/
+
+// TC ~ O(logm) , m = sum(weights)
+// SC ~ O(1)
+
+class Solution {
+    public int shipWithinDays(int[] weights, int days) {
+
+        int maxWt = 0;
+        int totalWt = 0;
+
+        for(int wt: weights){
+            maxWt = Math.max(maxWt, wt);
+            totalWt+=wt;
+        }
+
+        if(days == 1) return totalWt;
+        if(days >= weights.length) return maxWt;
+
+        int start = maxWt;
+        int end = totalWt;
+
+        int minCapacity = -1;
+
+        while(start <= end){
+            int mid = start + (end - start)/2;
+            if(isCapacityEnough(weights,days,mid)){
+                minCapacity = mid;
+                end = mid-1;
+            }
+            else{
+                start = mid+1;
+            }
+        }
+
+        return minCapacity;
+
+    }
+
+    private boolean isCapacityEnough(int weights[], int days, int capacity){
+        int i = 0;
+        int reqDays = 0;
+
+        while(i<weights.length){
+            int dayWt = 0;
+            while(i<weights.length && dayWt+weights[i] <= capacity){
+                dayWt+=weights[i];
+                i++;
+            }
+            reqDays++;
+            if(reqDays > days) return false;
+        }
+
+        return true;
+    }
+
+
+}
