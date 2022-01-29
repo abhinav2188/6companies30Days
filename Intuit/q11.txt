@@ -1,0 +1,73 @@
+/*
+question : https://leetcode.com/problems/construct-quad-tree/
+submission : https://leetcode.com/submissions/detail/630082527/
+*/
+
+/*
+// Definition for a QuadTree node.
+class Node {
+    public boolean val;
+    public boolean isLeaf;
+    public Node topLeft;
+    public Node topRight;
+    public Node bottomLeft;
+    public Node bottomRight;
+
+
+    public Node() {
+        this.val = false;
+        this.isLeaf = false;
+        this.topLeft = null;
+        this.topRight = null;
+        this.bottomLeft = null;
+        this.bottomRight = null;
+    }
+
+    public Node(boolean val, boolean isLeaf) {
+        this.val = val;
+        this.isLeaf = isLeaf;
+        this.topLeft = null;
+        this.topRight = null;
+        this.bottomLeft = null;
+        this.bottomRight = null;
+    }
+
+    public Node(boolean val, boolean isLeaf, Node topLeft, Node topRight, Node bottomLeft, Node bottomRight) {
+        this.val = val;
+        this.isLeaf = isLeaf;
+        this.topLeft = topLeft;
+        this.topRight = topRight;
+        this.bottomLeft = bottomLeft;
+        this.bottomRight = bottomRight;
+    }
+};
+*/
+
+class Solution {
+    public Node construct(int[][] grid) {
+        return constructUtil(grid,0,0,grid.length);
+    }
+    private Node constructUtil(int grid[][], int x, int y, int glen){
+
+
+        int val = grid[x][y];
+        boolean isLeaf = true;
+        for(int i=x; i<x+glen; i++){
+            for(int j=y; j<y+glen; j++){
+                if(grid[i][j] != val){
+                    isLeaf = false;
+                    break;
+                }
+            }
+        }
+        if(isLeaf) return new Node((val==1?true:false),true);
+
+        Node topLeft = constructUtil(grid,x,y,glen/2);
+        Node topRight = constructUtil(grid,x,y+glen/2,glen/2);
+        Node bottomLeft = constructUtil(grid,x+glen/2,y,glen/2);
+        Node bottomRight = constructUtil(grid,x+glen/2,y+glen/2,glen/2);
+
+        return new Node((val==1?true:false),isLeaf,topLeft,topRight,bottomLeft,bottomRight);
+
+    }
+}
