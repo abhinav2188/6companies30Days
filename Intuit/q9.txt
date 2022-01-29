@@ -1,0 +1,67 @@
+/*
+question : https://leetcode.com/problems/pacific-atlantic-water-flow/
+submission : https://leetcode.com/submissions/detail/630065014/
+*/
+
+class Solution {
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+
+        int n = heights.length;
+        int m = heights[0].length;
+
+        boolean canTouchPacific[][] = new boolean[n][m];
+        boolean canTouchAtlantic[][] = new boolean[n][m];
+
+        // checking if a block can touch pacific
+        for(int j=0;j<m;j++){
+            if(!canTouchPacific[0][j])
+            dfs(heights,0,j,canTouchPacific);
+        }
+
+        for(int i=0;i<n;i++){
+            if(!canTouchPacific[i][0])
+            dfs(heights,i,0,canTouchPacific);
+        }
+
+        // checking if a block can touch atlantic
+        for(int j=0;j<m;j++){
+            if(!canTouchAtlantic[n-1][j])
+            dfs(heights,n-1,j,canTouchAtlantic);
+        }
+
+        for(int i=0;i<n;i++){
+            if(!canTouchAtlantic[i][m-1])
+            dfs(heights,i,m-1,canTouchAtlantic);
+        }
+
+
+        List<List<Integer>> ans = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(canTouchPacific[i][j] && canTouchAtlantic[i][j])
+                    ans.add(Arrays.asList(i,j));
+            }
+        }
+
+        return ans;
+
+    }
+
+    private int dirs[][] = {{0,1},{0,-1},{-1,0},{1,0}};
+
+    private void dfs(int heights[][], int i,int j, boolean visited[][]){
+
+        int n = heights.length;
+        int m = heights[0].length;
+
+        visited[i][j] = true;
+        for(int dir[] : dirs){
+            int x = i+dir[0];
+            int y = j+dir[1];
+            if(x>=0 && x<n && y>=0 && y<m && !visited[x][y]){
+                if(heights[x][y] >= heights[i][j])
+                    dfs(heights,x,y,visited);
+            }
+        }
+    }
+}
