@@ -1,0 +1,63 @@
+/*
+question : https://leetcode.com/problems/minimum-swaps-to-arrange-a-binary-grid/
+submission : https://leetcode.com/submissions/detail/630143083/
+*/
+
+// TC ~ O(n^2)
+// SC ~ O(n)
+
+class Solution {
+    public int minSwaps(int[][] grid) {
+
+        int n = grid.length;
+
+        // number of zeros count from right
+        int zeroCount[] = new int[n];
+
+        for(int i=0;i<n;i++){
+            for(int j=n-1; j>=0; j--){
+                if(grid[i][j] == 0)
+                    zeroCount[i]++;
+                else
+                    break;
+            }
+        }
+
+        int effectiveIdx[] = new int[n];
+        for(int i=0;i<n;i++)
+            effectiveIdx[i] = i;
+
+        int swapCount = 0;
+
+
+        for(int reqZero = n-1,i=0; reqZero>0; reqZero--,i++){
+            int j = 0;
+            while(j<n && zeroCount[j]<reqZero){
+                effectiveIdx[j]++;
+                j++;
+            }
+            // no index with reqZero is found
+            if(j==n) return -1;
+            swapCount+=(effectiveIdx[j]-i);
+            zeroCount[j] = -1;
+
+        }
+
+        return swapCount;
+
+
+    }
+}
+
+/*
+[0,0,0]
+[0,1,2]
+
+[[0,0,1],[1,1,0],[1,0,0]]
+[[0,1,1,0],[0,1,1,0],[0,1,1,0],[0,1,1,0]]
+[[1,0,0],[1,1,0],[1,1,1]]
+[[1,1,1,1],[1,1,1,0],[1,1,0,0],[1,0,0,0]]
+[[1,1,1,0],[1,1,0,0],[1,1,1,0],[1,0,0,0]]
+[[1,1,0,0],[1,1,1,0],[1,1,1,0],[1,0,0,0]]
+
+*/
