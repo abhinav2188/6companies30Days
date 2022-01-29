@@ -1,0 +1,68 @@
+/*
+question : https://https://leetcode.com/problems/stone-game/
+submission1 : https://leetcode.com/submissions/detail/630201301/
+submission2 : https://leetcode.com/submissions/detail/630201936/
+*/
+
+// 1
+
+// TC ~ O(n^2)
+// SC ~ O(n^2)
+
+class Solution {
+    public boolean stoneGame(int[] piles) {
+
+
+        int n = piles.length;
+
+        int score[][][] = new int[n][n][2];
+        // score[i][j][x] represents the score of x player from piles[i to j]
+
+        int turn = (n%2==0)?1:0; // 0 ~ alice, 1 ~ bob
+
+        for(int len = 1; len<=n; len++){
+            for(int i=0; i<=n-len; i++){
+                int j = i+len-1;
+                if(len == 1){
+                    score[i][j][turn] = piles[i];
+                    continue;
+                }
+                int c1 = piles[i] + score[i+1][j][turn];
+                int c2 = piles[j] + score[i][j-1][turn];
+                if(c1 > c2){
+                    score[i][j][turn] = c1;
+                    score[i][j][1^turn] = score[i+1][j][1^turn];
+                }
+                else{
+                    score[i][j][turn] = c2;
+                    score[i][j][1^turn] = score[i][j-1][1^turn];
+                }
+            }
+            turn^=1;
+        }
+
+        // for(int i=0;i<n;i++){
+        //     for(int j=i;j<n;j++){
+        //         System.out.print(Arrays.toString(score[i][j])+",");
+        //     }
+        //     System.out.println();
+        // }
+
+        return (score[0][n-1][0] > score[0][n-1][1]);
+    }
+}
+
+/*
+sg(piles,start=0,end=n-1,turn=a) {
+    if(turn == a)
+        score1 = piles[start] + sg()
+}
+*/
+
+// 2
+
+class Solution {
+    public boolean stoneGame(int[] piles) {
+        return true;
+    }
+}
