@@ -1,0 +1,26 @@
+/*
+question : https://leetcode.com/problems/remove-colored-pieces-if-both-neighbors-are-the-same-color/
+submission : https://leetcode.com/submissions/detail/630218715/
+*/
+
+class Solution {
+    public boolean winnerOfGame(String colors) {
+
+        // count of removables
+        int remCount[] = new int[2];
+
+        int i=0;
+        while(i<colors.length()){
+            int count = 0;
+            char color = colors.charAt(i);
+            while(i<colors.length() && color==colors.charAt(i)){
+                count++;
+                i++;
+            }
+            if(count>2) remCount[color-'A'] += count-2;
+        }
+        // System.out.println(Arrays.toString(remCount));
+        return (remCount[0]>remCount[1]);
+
+    }
+}
