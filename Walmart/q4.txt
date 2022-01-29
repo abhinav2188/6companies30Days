@@ -1,0 +1,60 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/number-of-unique-paths5339/1/#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=7d19b03385af8a7abb182fa87c87b9a2&pid=701714&user=mosshead
+*/
+
+//Initial Template for Java
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+	public static void main (String[] args) {
+
+	    //taking input using Scanner class
+		Scanner sc=new Scanner(System.in);
+
+		//taking total testcases
+		int t=sc.nextInt();
+		while(t-->0)
+		{
+		    //taking dimensions of the matrix
+		    int a=sc.nextInt();
+		    int b=sc.nextInt();
+		    Solution ob = new Solution();
+		    //calling method NumberOfPath()
+		    System.out.println(ob.NumberOfPath(a,b));
+		}
+	}
+}// } Driver Code Ends
+
+
+// TC ~ O(a*b)
+// SC ~ O(b)
+
+class Solution
+{
+    //Function to find total number of unique paths.
+    public static int NumberOfPath(int a, int b)
+    {
+        if(a==1 || b==1) return 1;
+
+        int ways[] = new int[b];
+        Arrays.fill(ways,1);
+
+        for(int i=1;i<a;i++){
+            int ways2[] = new int[b];
+            ways2[0] = 1;
+            for(int j=1;j<b;j++){
+                ways2[j] = ways[j] + ways2[j-1];
+            }
+            ways = ways2;
+        }
+
+        return ways[b-1];
+
+    }
+}
