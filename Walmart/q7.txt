@@ -1,0 +1,117 @@
+/*
+question : https://practice.geeksforgeeks.org/problems/sorted-subsequence-of-size-3/1/#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=76005d154d72df8e29c55296db17c91c&pid=700357&user=mosshead
+*/
+
+import java.util.*;
+import java.io.*;
+class SubSeq {
+    public static boolean isSubSequence(ArrayList<Integer> v1, ArrayList<Integer> v2,
+                                 int n, int m) {
+
+        if (m == 0) return true;
+        if (n == 0) return false;
+
+        if (v1.get(n - 1).equals(v2.get(m - 1)))
+            return isSubSequence(v1, v2, n - 1, m - 1);
+
+        return isSubSequence(v1, v2, n - 1, m);
+    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br =
+            new BufferedReader(new InputStreamReader(System.in));
+        int tc = Integer.parseInt(br.readLine().trim());
+        while (tc-- > 0) {
+            int n = Integer.parseInt(br.readLine().trim());
+            String[] str = br.readLine().trim().split(" ");
+            ArrayList<Integer> a = new ArrayList<Integer>();
+            for (int i = 0; i < n; i++) {
+                a.add(Integer.parseInt(str[i]));
+            }
+            Solution g = new Solution();
+            ArrayList<Integer> res = g.find3Numbers(a, n);
+
+            // wrong format output
+            if (!res.isEmpty() && res.size() != 3) {
+                System.out.println(-1);
+            }
+
+            if (res.isEmpty()) {
+                System.out.println(0);
+            } else if ((res.get(0) < res.get(1)) && (res.get(1) < res.get(2)) &&
+                       isSubSequence(a, res, n, res.size())) {
+                System.out.println(1);
+            } else {
+                System.out.println(-1);
+            }
+        }
+    }
+}// } Driver Code Ends
+
+
+/*Complete the function below*/
+
+class Solution {
+    ArrayList<Integer> find3Numbers(ArrayList<Integer> arr, int n) {
+
+        if(n<3) return new ArrayList<>();
+
+        List<Integer> min1 = new ArrayList<>();
+        List<Integer> min2 = new ArrayList<>();
+
+        int m3 = -1;
+        for(int i=0; i<n; i++){
+            if( min1.size() == 0 || arr.get(i) < arr.get(min1.get(min1.size()-1)) ){
+                min1.add(i);
+            }
+            else if( arr.get(i) > arr.get(min1.get(min1.size()-1)) && ( min2.size() == 0 || arr.get(i) < arr.get(min2.get(min2.size()-1)) ) ){
+                min2.add(i);
+            }
+            else if( min2.size() > 0 && arr.get(i) > arr.get(min2.get(min2.size()-1)) ){
+                m3 = i;
+                break;
+            }
+        }
+
+        // System.out.println(min1);
+        // System.out.println(min2);
+
+        if(m3 == -1) return new ArrayList<>();
+
+        int m2=-1,m1=-1;
+        for(int i=min2.size()-1;i>=0;i--){
+            if(min2.get(i) < m3) {
+                m2 = min2.get(i);
+                break;
+            }
+        }
+        if(m2 == -1) return new ArrayList<>();
+        for(int i=min1.size()-1;i>=0;i--){
+            if(min1.get(i) < m2) {
+                m1 = min1.get(i);
+                break;
+            }
+        }
+        if(m1 == -1) return new ArrayList<>();
+
+        ArrayList<Integer> ans = new ArrayList<>();
+        ans.add(arr.get(m1));
+        ans.add(arr.get(m2));
+        ans.add(arr.get(m3));
+
+        // System.out.println(ans);
+
+        return ans;
+
+    }
+}
+
+/*
+1,2,1,1,0,3
+i=0
+min1 = 1,0
+min2 = 2
+min3 = 3
+1,2,0,2,1,2
+*/
