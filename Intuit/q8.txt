@@ -1,0 +1,50 @@
+/*
+question : https://leetcode.com/problems/number-of-boomerangs/submissions/
+submission : https://leetcode.com/submissions/detail/630045726/
+*/
+
+class Solution {
+
+    public int numberOfBoomerangs(int[][] points) {
+
+        int bcount = 0;
+
+        for(int i=0;i<points.length;i++){
+            Map<Integer,Integer> map = new HashMap<>();
+            for(int j=0;j<points.length;j++){
+                if(j==i) continue;
+                int dist = calcDistance(points[i],points[j]);
+                map.put(dist,map.getOrDefault(dist,0)+1);
+            }
+            for(int d: map.values()){
+                if(d>=2) bcount += d*(d-1);
+            }
+        }
+        return bcount;
+    }
+
+    private int calcDistance(int p1[], int p2[]){
+        return (p2[0]-p1[0])*(p2[0]-p1[0]) + (p2[1]-p1[1])*(p2[1]-p1[1]);
+    }
+}
+
+
+
+/*
+[0,0],[1,0],[2,0]
+[1,0],[0,0],[2,0]
+[[0,0],[0,1],[0,2],[0,3],[0,4],[1,1],[1,3],[1,5],[2,1],[2,4],[2,8],[2,9],[3,2],[3,5],[4,4]]
+
+9   *
+8   *
+7
+6
+5 *   *
+*   *   *
+* *
+*     *
+* * *
+* 1 2 3 4
+
+
+*/
