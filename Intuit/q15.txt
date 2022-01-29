@@ -1,0 +1,51 @@
+/*
+question : https://leetcode.com/problems/koko-eating-bananas/
+submission : https://leetcode.com/submissions/detail/630160782/
+*/
+
+// TC ~ O( log(max(piles)) * O(piles.length))
+// SC ~ O(1)
+
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+
+        int maxPile = 0;
+        for(int p:piles) maxPile = Math.max(maxPile,p);
+
+        // eating speed can lie b/w [1,maxPile]
+        int start = 1;
+        int end = maxPile;
+
+        int minSpeed = Integer.MAX_VALUE;
+        while(start<=end){
+            int speed = start + (end-start)/2;
+            if(isSpeedEnough(piles,h,speed)){
+                minSpeed = speed;
+                end = speed - 1;
+            }
+            else{
+                start = speed+1;
+            }
+        }
+
+        return minSpeed;
+    }
+
+    private boolean isSpeedEnough(int piles[], int h, int speed){
+        int reqHours = 0;
+        for(int i=0;i<piles.length;i++){
+            if(piles[i] <= speed) reqHours++;
+            else reqHours += (int)(Math.ceil((double)piles[i]/speed));
+            if(reqHours > h) return false;
+        }
+        return true;
+    }
+
+}
+
+/*
+h = 8
+[3,6,7,11]
+k = [1,11]
+
+*/
