@@ -1,0 +1,87 @@
+/*
+question :
+https://practice.geeksforgeeks.org/problems/power-of-numbers-1587115620/1/?company[]=Walmart&company[]=Walmart&page=1&query=company[]Walmartpage1company[]Walmart#
+submission :
+https://practice.geeksforgeeks.org/viewSol.php?subId=3fee8798a760799a2b5e36e3514263f6&pid=701195&user=mosshead
+*/
+
+//Initial Template for Java
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+class Main {
+
+    // compute reverse of a number
+    public static long rev(long n)
+    {
+        long rev_num = 0;
+         while(n > 0)
+          {
+            rev_num = rev_num*10 + n%10;
+            n = n/10;
+          }
+          return rev_num;
+    }
+
+	public static void main (String[] args) {
+		Scanner sc=new Scanner(System.in);
+
+        //testcases
+		int T=sc.nextInt();
+		while(T-->0)
+		{
+		    Solution obj=new Solution();
+
+		    int N;
+
+
+            //input N
+		    N=sc.nextInt();
+		    int R=0;
+
+
+            // reverse the given number n
+		    R=(int)rev(N);
+
+            //power of the number to it's reverse
+		    long ans=(long)obj.power(N,R);
+		    System.out.println(ans);
+
+
+		}
+
+	}
+}
+
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+class Solution
+{
+    long mod(long n){
+        int m = (int)1e9 + 7;
+        return n%m;
+    }
+    long power(int N,int R)
+    {
+
+        if(R==0) return 1;
+        if(R==1) return N;
+
+        if(N==1) return 1;
+
+        int n2 = (int)mod((long)N*(long)N);
+
+        if((R&1) == 1){
+            return mod( mod( power(n2,R/2) ) * N);
+        }
+        else{
+            return mod( power(n2,R/2) );
+        }
+    }
+
+}
