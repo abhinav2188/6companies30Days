@@ -1,0 +1,68 @@
+/*
+question : https://leetcode.com/problems/as-far-from-land-as-possible/
+submission : https://leetcode.com/submissions/detail/630153405/
+*/
+
+class Solution {
+
+    private final int dirs[][] = {{0,-1},{0,1},{-1,0},{1,0}};
+
+    public int maxDistance(int[][] grid) {
+
+        int n = grid.length;
+
+        ArrayDeque<List<Integer>> queue = new ArrayDeque<>();
+        boolean visited[][] = new boolean[n][n];
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j] == 1){
+                    visited[i][j] = true;
+                    queue.offerLast(Arrays.asList(i,j));
+                }
+            }
+        }
+
+        if(queue.size() == n*n || queue.size() == 0) return -1;
+
+        int maxD = 0;
+
+        while(queue.size() > 0){
+            int k = queue.size();
+            for(int i=0;i<k;i++){
+                List<Integer> pt = queue.pollFirst();
+                for(int dir[] : dirs){
+                    int x = pt.get(0) + dir[0];
+                    int y = pt.get(1) + dir[1];
+                    if(x>=0 && x<n && y>=0 && y<n && !visited[x][y]){
+                        visited[x][y] = true;
+                        queue.offerLast(Arrays.asList(x,y));
+                    }
+                }
+            }
+            maxD++;
+        }
+
+        return maxD-1;
+
+    }
+}
+
+/*
+[
+    [1,0,0,0,0],
+    [0,1,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,1],
+    [1,0,0,0,0]
+]
+
+[
+    [1,2,3,4,4],
+    [2,1,2,3,3],
+    [3,2,3,3,2],
+    [2,3,3,2,1],
+    [1,2,3,3,2]
+]
+
+*/
