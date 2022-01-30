@@ -1,0 +1,48 @@
+/*
+question : https://leetcode.com/problems/generate-random-point-in-a-circle/
+submission : https://leetcode.com/submissions/detail/630828331/
+*/
+
+class Solution {
+
+    double radius;
+    double centerX;
+    double centerY;
+
+    public Solution(double radius, double x_center, double y_center) {
+        this.radius = radius;
+        this.centerX = x_center;
+        this.centerY = y_center;
+    }
+
+    public double[] randPoint() {
+
+        double point[] = new double[2];
+
+        while(true){
+            point[0] = getRandom(centerX-radius,centerX+radius);
+            point[1] = getRandom(centerY-radius,centerY+radius);
+
+            if(isInside(point)) break;
+        }
+
+        return point;
+
+    }
+
+    private double getRandom(double min, double max){
+        double range = max - min;
+        return (Math.random() * range + min);
+    }
+
+    private boolean isInside(double point[]){
+        return ((point[0]-centerX)*(point[0]-centerX) + (point[1]-centerY)*(point[1]-centerY) <= radius*radius);
+    }
+
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(radius, x_center, y_center);
+ * double[] param_1 = obj.randPoint();
+ */
