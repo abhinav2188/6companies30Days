@@ -1,0 +1,113 @@
+/*
+question : https://leetcode.com/problems/divide-two-integers/
+submission : https://leetcode.com/submissions/detail/631028000/
+*/
+
+class Solution {
+    public int divide(int dividend, int divisor) {
+
+        boolean isNeg = false;
+        boolean isDividendMin = false;
+
+        if(divisor == Integer.MIN_VALUE){
+            if(dividend == Integer.MIN_VALUE) return 1;
+            else return 0;
+        }
+        if(divisor == 1){
+            return dividend;
+        }
+        if(divisor == -1){
+            if(dividend == Integer.MIN_VALUE) return Integer.MAX_VALUE;
+            return 0-dividend;
+        }
+
+        if(dividend == Integer.MIN_VALUE){
+            isDividendMin = true;
+            dividend+=1;
+        }
+
+        if(dividend < 0) {
+            dividend =  0 - dividend;
+            isNeg = true;
+        }
+        if(divisor < 0){
+            divisor = 0 - divisor;
+            isNeg = !isNeg;
+        }
+
+        int ans[] = divideUtil(dividend,divisor);
+        if(isDividendMin){
+            ans[1]+=1;
+            if(ans[1] == divisor) ans[0]++;
+        }
+
+        return isNeg? 0-ans[0] : ans[0];
+    }
+
+    // [quotient,rem]
+    private int[] divideUtil(int dividend,int divisor){
+        // divedent/divisor
+
+        int ans[] = new int[2];
+        if(dividend<divisor){
+            ans[1] = dividend;
+            return ans;
+        }
+        else if(dividend == divisor){
+            ans[0] = 1;
+            return ans;
+        }
+
+        int isOdd = (dividend&1);
+
+        // half the divident
+        dividend>>=1;
+        ans = divideUtil(dividend,divisor);
+
+        // double the quotient
+        ans[0]<<=1;
+        // double the remainder, add if divident was odd
+        ans[1] = ans[1] + ans[1] + isOdd;
+
+        if(ans[1] >= divisor) {
+            ans[0]+=1;
+            ans[1]-=divisor;
+        }
+        // System.out.println(Arrays.toString(ans));
+
+        return ans;
+    }
+
+}
+
+/*
+
+
+div(45,7)
+odd = 1
+    div(22,7)
+    odd = 0
+        div(11,7)
+        odd = 1
+            div(5,7) => [q=0,rem=5]
+        q<<=1;
+        rem = rem+rem+odd;
+        if(rem > divisor) q+=1
+
+
+
+0011011
+0010000
+   1011
+
+27
+16
+
+
+11
+1010
+^ 11
+1001
+
+
+*/
