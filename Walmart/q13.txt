@@ -1,0 +1,44 @@
+/*
+question : https://leetcode.com/problems/find-the-kth-largest-integer-in-the-array/
+submission : https://leetcode.com/submissions/detail/630994767/
+*/
+
+// TC ~ O(n*nlogk)
+// SC ~ O(k*max(len(string)))
+
+class StringNumsComparator implements Comparator<String>{
+    @Override
+    public int compare(String s1, String s2){
+        if(s1.length() != s2.length())
+            return s1.length() - s2.length();
+        int i = 0;
+        int n = s1.length();
+        while(i<n && s1.charAt(i) == s2.charAt(i)) i++;
+        if(i==n) return 0;
+        else return s1.charAt(i) - s2.charAt(i);
+    }
+}
+
+class Solution {
+
+    public String kthLargestNumber(String[] nums, int k) {
+
+        Comparator<String> comparator = new StringNumsComparator();
+
+        PriorityQueue<String> minHeap = new PriorityQueue<>(comparator);
+
+        for(int i=0; i<nums.length; i++){
+            if(minHeap.size() < k){
+                minHeap.offer(nums[i]);
+            }else{
+                if( comparator.compare(nums[i],minHeap.peek()) > 0 ){
+                    minHeap.poll();
+                    minHeap.offer(nums[i]);
+                }
+            }
+        }
+
+        return minHeap.peek();
+    }
+
+}
