@@ -1,0 +1,38 @@
+/*
+question : https://leetcode.com/problems/compare-version-numbers/
+submission : https://leetcode.com/submissions/detail/631058922/
+*/
+
+class Solution {
+    public int compareVersion(String v1, String v2) {
+
+        // counter for v1
+        int i=0;
+        // counter for v2
+        int j=0;
+
+        while(i<v1.length() || j<v2.length()){
+            // v1 revision
+            int p1 = 0;
+            while(i<v1.length() && v1.charAt(i)!='.'){
+                p1 = p1*10 + v1.charAt(i) - '0';
+                i++;
+            }
+            // v2 revision
+            int p2 = 0;
+            while(j<v2.length() && v2.charAt(j)!='.'){
+                p2 = p2*10 + v2.charAt(j) - '0';
+                j++;
+            }
+
+            if(p1 > p2) return 1;
+            if(p2 > p1) return -1;
+
+            i++;
+            j++;
+        }
+
+        return 0;
+
+    }
+}
