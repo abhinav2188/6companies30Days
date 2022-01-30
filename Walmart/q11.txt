@@ -1,0 +1,92 @@
+/*
+question : https://leetcode.com/problems/maximum-performance-of-a-team/
+submission : https://leetcode.com/submissions/detail/630881157/
+*/
+
+// TC ~ O(nlogn) + O(n*(k+logk))
+// SC ~ O(n)+O(k)
+
+
+class Pair{
+    int s;
+    int e;
+    public Pair(int s1,int e1){
+        s = s1;
+        e = e1;
+    }
+    public String toString(){
+        return "["+s+","+e+"]";
+    }
+}
+
+class Solution {
+    public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
+
+        if(k==1){
+            int mxp = 0;
+            for(int i=0;i<n;i++)
+                mxp = Math.max(mxp, speed[i]*efficiency[i]);
+            return mxp;
+        }
+
+        List<Pair> engs = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            engs.add(new Pair(speed[i],efficiency[i]));
+        }
+        // sort in the non-increasing order
+        Collections.sort(engs,(p1,p2)->p2.e-p1.e);
+        // System.out.println(engs);
+
+        // maintain k-1 max speeds
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+
+        long maxPerformance = 0;
+        for(int i=0;i<n;i++){
+            // System.out.println(minHeap);
+            long speedSum = engs.get(i).s;
+            for(int s : minHeap) speedSum+=s;
+
+            long performance = speedSum * (long)engs.get(i).e;
+            maxPerformance = Math.max(maxPerformance, performance);
+
+            if(minHeap.size() < k-1){
+                minHeap.offer(engs.get(i).s);
+            }
+            else if(minHeap.peek() < engs.get(i).s){
+                minHeap.poll();
+                minHeap.offer(engs.get(i).s);
+            }
+        }
+        // System.out.println(maxPerformance);
+        return (int)(maxPerformance%((int)1e9+7));
+
+    }
+}
+
+// performance = sum(speed) * min(efficiency)
+
+/*
+brute force :
+find all subset of length k C(n,k) ~ O(n^k)
+find performance for all O(k)
+take the maximum
+
+
+speed = [2,10,3,1,5,8],
+efficiency = [5,4,3,9,7,2], k = 2
+e = [9,7,5,4,3,2]
+s = [1,5,2,10,3,8]
+
+e = 2, s = 8+10 p = 36
+e = 3, s = 3+10, p=39
+e = 4, s = 10+5, p=60
+e = 5, s = 2+5, p=35
+e = 7, s = 5+1, p=42
+
+s1. sort by efficiency
+s2. maintain (k-1) maximum speeds
+s3. at each iteration, multiple ith performace with (ith speed + maxk)
+
+TC ~ O(nlogn) + O(n*k)
+*/
