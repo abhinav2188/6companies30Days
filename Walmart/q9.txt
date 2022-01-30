@@ -1,0 +1,32 @@
+/*
+question : https://leetcode.com/problems/guess-number-higher-or-lower-ii/submissions/
+submission : https://leetcode.com/submissions/detail/630792983/
+*/
+
+// TC ~ O(n^3)
+// SC ~ O(n^2)
+
+class Solution {
+    public int getMoneyAmount(int n) {
+        int dp[][] = new int[n+1][n+1];
+        // dp[i][j] is the minimum cost needed to guess any number b/w i and j
+
+        // cost = 0 when there is a single choice
+        for(int len = 2; len <= n; len++){
+            for(int i=1; i<=n+1-len; i++){
+                int j = i+len-1;
+                int minCost = Integer.MAX_VALUE;
+                // choosing k as our guess
+                for(int k=i; k<=j; k++){
+                    int cost1,cost2;
+                    cost1 = cost2 = k;
+                    if(k-1 >= i) cost1+= dp[i][k-1];
+                    if(k+1 <= j) cost2+= dp[k+1][j];
+                    minCost = Math.min(minCost,Math.max(cost1,cost2));
+                }
+                dp[i][j] = minCost;
+            }
+        }
+        return dp[1][n];
+    }
+}
